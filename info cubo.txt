@@ -1,10 +1,10 @@
 - Según la cara activa, incrementar una coordenada u otra. 
-- Variable para indicar que coordenada se cambia, si la vertical o la horizontal. En la otra coordenada se aplica la fuerza que simula la gravedad y los saltos. Estas variables pueden ser un vec3 que indique el eje y el sentido.
+- Variable para indicar que coordenada se cambia, si la vertical o la horizontal. En la otra coordenada se aplica la fuerza que simula la gravedad y los saltos. Estas variables pueden ser un vec3 que indique el eje y el sentido. YA HABLAMOS DE QUE NO ES NECESARIO, YA QUE VAMOS A UTILIZAR EL UP Y EL FORWARD
 
 
 - Al llegar a -(tamWorld+tamBlock)/2 o (tamWorld+tamBlock)/2, cambiar la cara activa. 
-- En la transición se cambia la cara activa, y se asigna el vector de coordenadas de movimiento y el de gravedad/salto. 
-- También se deben eliminar todas las fuerzas sobre el prota o modificarlas para orientarlas en la dirección correcta.
+- En la transición se cambia la cara activa, y se asigna el vector de coordenadas de movimiento y el de gravedad/salto. cAMBIOS DE CARAS CON ROTACIONES. aL ROTAR, HAY QUE FIJAR LAS COORDENADAS (si gira al llegar a 5, pero gira con un valor de 5.02, se debe truncar)
+- También se deben recuperar todas las fuerzas que se esten aplicando sobre el prota y añadirlas en la nueva dirección correcta.
 
 
 - Fuerza de gravedad: en cada update de añade una fuerza de 9.8*Time.Elapse sobre el eje adecuado.
@@ -14,9 +14,9 @@
 - Si un valor supera los límites [-(tamWorld+tamBlock)/2,(tamWorld+tamBlock)/2], se debe ajustar al límite adecuado.
 
 
-- La cámara se sitúa a una distancia "d" del origen de coordenadas, siempre pasando por el centro del prota.
-- El vector up de la camara debe ser el mismo que el del prota, para verlo siempre de pie.
-- Asociar a la camara una luz, de modo que la iluminación de la escena vaya "rotando".
+- La cámara se sitúa a una distancia "d" del origen de coordenadas, siempre pasando por el centro del prota. HACER COMO LO HABLAMOS CON KUNI
+- El vector up de la cámara debe ser el mismo que el del prota, para verlo siempre de pie.
+- Asociar a la cámara una luz, de modo que la iluminación de la escena vaya "rotando".
 
 
-- El cubo va desde el punto (-tamWorld,-tamWorld,-tamWorld) a (tamWorld,tamWorld,tamWorld), de modo que el origen de coordenadas sea el centro del cubo.
+- El cubo va desde el punto (-tamWorld/2,-tamWorld/2,-tamWorld/2) a (tamWorld/2,tamWorld/2,tamWorld/2), de modo que el origen de coordenadas sea el centro del cubo.
