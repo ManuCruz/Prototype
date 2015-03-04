@@ -1,5 +1,6 @@
-The steps:
+fuente: http://stackoverflow.com/questions/21573405/how-to-prepare-a-unity-project-for-git
 
+The steps:
 Create a git repo on-line (eg. github.com)
 Save your Unity project on your local filesystem
 Enable External option in Unity ? Preferences ? Packages ? Repository (only if Unity ver < 4.5)
