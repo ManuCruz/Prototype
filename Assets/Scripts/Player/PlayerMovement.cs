@@ -12,45 +12,77 @@ public class PlayerMovement : MonoBehaviour {
 
 	enum state{stop, right, left};
 	private state m_status = state.stop;
-	
+
+	private float m_semiWidth;
+	private bool m_toR = false;
+	private bool m_toL = false;
+
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
+
+		m_semiWidth = Camera.main.pixelWidth/2;
 	}
 
 	void Update () {
-		if (!m_isJumping && ((Input.GetKey (KeyCode.RightArrow) && Input.GetKey (KeyCode.LeftArrow)) /*|| (mobile)*/)) {
-			m_RG.velocity = (transform.up * jumpForce);
-			m_isJumping = true;
-		}
+		GetInput ();
+		DoMovement ();
+
+		//QUIT
+		if (Input.GetKeyDown(KeyCode.Escape)) 
+			Application.Quit();
 	}
 
-	void FixedUpdate(){
-		if ((Input.GetKey (KeyCode.RightArrow) /*|| (mobile)*/) && m_status != state.left) {
-			if ( m_status == state.stop)
+	void GetInput(){
+		m_toR = false;
+		m_toL = false;
+
+		//movil
+		for (var i = 0; i < Input.touchCount; ++i) {
+			if (Input.GetTouch(i).phase == TouchPhase.Began || Input.GetTouch(i).phase == TouchPhase.Stationary){
+				if (Input.GetTouch(i).position.x < m_semiWidth)
+					m_toL = true;
+				else
+					m_toR = true;
+			}
+		}
+
+		//PC
+		if (Input.GetKey (KeyCode.RightArrow))
+			m_toR = true;
+		if (Input.GetKey (KeyCode.LeftArrow))
+			m_toL = true;
+	}
+
+	void DoMovement(){
+		if (!m_isJumping && m_toR && m_toL) {  //Jump
+			m_RG.velocity = (transform.up * jumpForce);
+			m_isJumping = true;
+		} else if (m_toR && !m_toL) {  //Right
+			if (m_status == state.stop)
 				transform.Rotate (transform.up, -90);
-
+			if (m_status == state.left)
+				transform.Rotate (transform.up, 180);
 			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
-
+			
 			m_status = state.right;
-		}
-		else if ((Input.GetKey (KeyCode.LeftArrow) /*|| (mobile)*/) && m_status != state.right) {
-			if ( m_status == state.stop)
+		} else if (m_toL && !m_toR) {  //Left
+			if (m_status == state.stop)
 				transform.Rotate (transform.up, 90);
-
+			if (m_status == state.right)
+				transform.Rotate (transform.up, 180);
 			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
-
+			
 			m_status = state.left;
-		}
-		else {
-			if ( m_status == state.right)
+		} else if (!m_toL && !m_toR){  //Stop
+			if (m_status == state.right)
 				transform.Rotate (transform.up, 90);
-			if ( m_status == state.left)
+			if (m_status == state.left)
 				transform.Rotate (transform.up, -90);
-
+			
 			m_status = state.stop;
 		}
 	}
-
+		
 	public void ResetJump(){
 		m_isJumping = false;
 	}
