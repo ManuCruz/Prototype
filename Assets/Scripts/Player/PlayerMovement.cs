@@ -22,10 +22,6 @@ public class PlayerMovement : MonoBehaviour {
 			m_RG.velocity = (transform.up * jumpForce);
 			m_isJumping = true;
 		}
-
-
-		if(Input.GetKey (KeyCode.DownArrow))
-			m_isJumping = false;
 	}
 
 	void FixedUpdate(){
@@ -53,6 +49,9 @@ public class PlayerMovement : MonoBehaviour {
 
 			m_status = state.stop;
 		}
+	}
 
+	public void ResetJump(){
+		m_isJumping = false;
 	}
 }
