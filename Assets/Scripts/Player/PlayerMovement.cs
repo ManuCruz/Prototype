@@ -57,6 +57,13 @@ public class PlayerMovement : MonoBehaviour {
 			m_toR = true;
 		if (Input.GetKey (KeyCode.LeftArrow))
 			m_toL = true;
+
+
+		//TEST
+		if (Input.GetKey (KeyCode.UpArrow))
+			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
+		if (Input.GetKey (KeyCode.DownArrow))
+			transform.Translate (transform.up * -speedMovement * Time.deltaTime, Space.World);
 	}
 
 	void DoMovement(){
@@ -66,25 +73,25 @@ public class PlayerMovement : MonoBehaviour {
 			m_isJumping = true;
 		} else if (m_toR && !m_toL) {  //Right
 			if (m_status == state.stop)
-				transform.Rotate (transform.up, -90);
+				transform.Rotate (transform.up, -90, Space.World);
 			if (m_status == state.left)
-				transform.Rotate (transform.up, 180);
+				transform.Rotate (transform.up, 180, Space.World);
 			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
 			
 			m_status = state.right;
 		} else if (m_toL && !m_toR) {  //Left
 			if (m_status == state.stop)
-				transform.Rotate (transform.up, 90);
+				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.right)
-				transform.Rotate (transform.up, 180);
+				transform.Rotate (transform.up, 180, Space.World);
 			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
 			
 			m_status = state.left;
 		} else if (!m_toL && !m_toR){  //Stop
 			if (m_status == state.right)
-				transform.Rotate (transform.up, 90);
+				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.left)
-				transform.Rotate (transform.up, -90);
+				transform.Rotate (transform.up, -90, Space.World);
 			
 			m_status = state.stop;
 		}
@@ -94,14 +101,31 @@ public class PlayerMovement : MonoBehaviour {
 		float dotForward = Vector3.Dot (transform.position, transform.forward);
 		
 		if (dotForward > m_absLimit && m_toR) { //right side
-			transform.Rotate (transform.up, -90);
+			transform.Rotate (transform.up, -90, Space.World);
 			AjustPosition();
 		}
 		else if (dotForward > m_absLimit && m_toL) { //left side
-			transform.Rotate (transform.up, 90);
+			transform.Rotate (transform.up, 90, Space.World);
 			AjustPosition();
 		}
 
+		float dotUp = Vector3.Dot (transform.position, transform.up);
+
+		if (dotUp > m_absLimit || dotUp < -m_absLimit) {
+			bool toUp = dotUp > m_absLimit;
+			switch (m_status){
+			case state.stop: 
+				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
+				break;
+			case state.right:
+				transform.Rotate (transform.forward, toUp? 90 : -90, Space.World);
+				break;
+			case state.left:
+				transform.Rotate (transform.forward, toUp? -90 : 90, Space.World);
+				break;
+			}
+			AjustPosition();
+		}
 	}
 
 	void AjustPosition(){
