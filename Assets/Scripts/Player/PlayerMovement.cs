@@ -17,15 +17,21 @@ public class PlayerMovement : MonoBehaviour {
 	private bool m_toR = false;
 	private bool m_toL = false;
 
+	private float m_absLimit;
+
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
 
 		m_semiWidth = Camera.main.pixelWidth/2;
+
+		float worldSize = GameObject.FindGameObjectWithTag(Tags.world).GetComponent<SizeScript>().worldSize;
+		m_absLimit = (worldSize + transform.localScale.z)/2;
 	}
 
 	void Update () {
 		GetInput ();
 		DoMovement ();
+		DoTransition ();
 
 		//QUIT
 		if (Input.GetKeyDown(KeyCode.Escape)) 
@@ -56,6 +62,7 @@ public class PlayerMovement : MonoBehaviour {
 	void DoMovement(){
 		if (!m_isJumping && m_toR && m_toL) {  //Jump
 			m_RG.velocity = (transform.up * jumpForce);
+		//	m_RG.AddRelativeForce (transform.up * jumpForce);
 			m_isJumping = true;
 		} else if (m_toR && !m_toL) {  //Right
 			if (m_status == state.stop)
@@ -83,6 +90,35 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 		
+	void DoTransition(){
+		float dotForward = Vector3.Dot (transform.position, transform.forward);
+		
+		if (dotForward > m_absLimit && m_toR) {
+			AjustPosition();
+			transform.Rotate (transform.up, 90);
+		}
+		else if (dotForward > m_absLimit && m_toL) {
+			AjustPosition();
+			transform.Rotate (transform.up, -90);
+		}
+
+	}
+
+	void AjustPosition(){
+		if (transform.position.x > m_absLimit)
+			transform.position = new Vector3(m_absLimit, transform.position.y, transform.position.z);
+		else if (transform.position.x < -m_absLimit)
+			transform.position = new Vector3(-m_absLimit, transform.position.y, transform.position.z);
+		else if (transform.position.y > m_absLimit)
+			transform.position = new Vector3(transform.position.x, m_absLimit, transform.position.z);
+		else if (transform.position.y < -m_absLimit)
+			transform.position = new Vector3(transform.position.x, -m_absLimit, transform.position.z);
+		else if (transform.position.z > m_absLimit)
+			transform.position = new Vector3(transform.position.x, transform.position.y, m_absLimit);
+		else if (transform.position.z < -m_absLimit)
+			transform.position = new Vector3(transform.position.x, transform.position.y, -m_absLimit);
+	}
+
 	public void ResetJump(){
 		m_isJumping = false;
 	}

@@ -3,14 +3,14 @@ using System.Collections;
 
 public class LandingScript : MonoBehaviour {
 
-	private PlayerMovement playerMovement;
+	private PlayerMovement m_playerMovement;
 	
 	void Start () {
-		playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
+		m_playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == Tags.world)
-			playerMovement.ResetJump ();
+		if (other.tag == Tags.floor)
+			m_playerMovement.ResetJump ();
 	}
 }
