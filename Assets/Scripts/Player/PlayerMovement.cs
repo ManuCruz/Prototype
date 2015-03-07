@@ -93,13 +93,13 @@ public class PlayerMovement : MonoBehaviour {
 	void DoTransition(){
 		float dotForward = Vector3.Dot (transform.position, transform.forward);
 		
-		if (dotForward > m_absLimit && m_toR) {
-			AjustPosition();
-			transform.Rotate (transform.up, 90);
-		}
-		else if (dotForward > m_absLimit && m_toL) {
-			AjustPosition();
+		if (dotForward > m_absLimit && m_toR) { //right side
 			transform.Rotate (transform.up, -90);
+			AjustPosition();
+		}
+		else if (dotForward > m_absLimit && m_toL) { //left side
+			transform.Rotate (transform.up, 90);
+			AjustPosition();
 		}
 
 	}
