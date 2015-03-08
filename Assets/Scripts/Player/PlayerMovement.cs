@@ -62,7 +62,7 @@ public class PlayerMovement : MonoBehaviour {
 		//TEST
 		if (Input.GetKeyDown (KeyCode.Space)){
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
-			Debug.Log("The direction is "+ transform.up);
+//			m_RG.AddRelativeForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
 		}
 		if (Input.GetKey (KeyCode.UpArrow))
 			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
@@ -120,6 +120,9 @@ public class PlayerMovement : MonoBehaviour {
 			Vector3 vel = m_RG.velocity;  //get the velocity
 			m_RG.velocity = new Vector3(0,0,0);
 
+			Debug.Log ("velocidad al empezar el cambio" + vel);
+			Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
+
 			switch (m_status){
 			case state.stop: 
 				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
@@ -134,8 +137,10 @@ public class PlayerMovement : MonoBehaviour {
 
 			AjustPosition();
 
-			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
+	//		m_RG.AddRelativeForce(vel, ForceMode.VelocityChange);  //restore the velocity
 		}
+
+		Debug.Log ("velocidad del objeto " + m_RG.velocity);
 	}
 
 	void AjustPosition(){

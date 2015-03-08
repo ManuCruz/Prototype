@@ -11,7 +11,8 @@ public class GravityForce : MonoBehaviour {
 		m_RG = GetComponent<Rigidbody>();
 	}
 
-	void Update () {
+	void FixedUpdate () {
 		m_RG.AddForce (-transform.up * gravityForce, ForceMode.Acceleration);
+	//	m_RG.AddRelativeForce (-Vector3.up * gravityForce, ForceMode.Acceleration);
 	}
 }
