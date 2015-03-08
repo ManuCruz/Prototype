@@ -12,6 +12,6 @@ public class GravityForce : MonoBehaviour {
 	}
 
 	void Update () {
-		m_RG.AddRelativeForce (-transform.up * gravityForce);
+		m_RG.AddForce (-transform.up * gravityForce, ForceMode.Acceleration);
 	}
 }

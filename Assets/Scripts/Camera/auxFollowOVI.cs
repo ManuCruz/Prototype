@@ -15,6 +15,5 @@ public class auxFollowOVI : MonoBehaviour {
 		Vector3 pos = m_player.transform.position.normalized;
 		Camera.main.transform.position = pos * distance;
 		Camera.main.transform.LookAt (pos);
-//		Camera.main.transform.up = m_player.transform.up;
 	}
 }

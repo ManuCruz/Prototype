@@ -60,6 +60,10 @@ public class PlayerMovement : MonoBehaviour {
 
 
 		//TEST
+		if (Input.GetKeyDown (KeyCode.Space)){
+			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
+			Debug.Log("The direction is "+ transform.up);
+		}
 		if (Input.GetKey (KeyCode.UpArrow))
 			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
 		if (Input.GetKey (KeyCode.DownArrow))
@@ -68,8 +72,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	void DoMovement(){
 		if (!m_isJumping && m_toR && m_toL) {  //Jump
-			m_RG.velocity = (transform.up * jumpForce);
-		//	m_RG.AddRelativeForce (transform.up * jumpForce);
+			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
 			m_isJumping = true;
 		} else if (m_toR && !m_toL) {  //Right
 			if (m_status == state.stop)
@@ -111,8 +114,12 @@ public class PlayerMovement : MonoBehaviour {
 
 		float dotUp = Vector3.Dot (transform.position, transform.up);
 
-		if (dotUp > m_absLimit || dotUp < -m_absLimit) {
+		if (dotUp > m_absLimit || dotUp < -m_absLimit) { //up and down sides
 			bool toUp = dotUp > m_absLimit;
+
+			Vector3 vel = m_RG.velocity;  //get the velocity
+			m_RG.velocity = new Vector3(0,0,0);
+
 			switch (m_status){
 			case state.stop: 
 				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
@@ -124,7 +131,10 @@ public class PlayerMovement : MonoBehaviour {
 				transform.Rotate (transform.forward, toUp? -90 : 90, Space.World);
 				break;
 			}
+
 			AjustPosition();
+
+			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
 		}
 	}
 
