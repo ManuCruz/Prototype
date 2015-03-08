@@ -138,6 +138,9 @@ public class PlayerMovement : MonoBehaviour {
 			AjustPosition();
 
 	//		m_RG.AddRelativeForce(vel, ForceMode.VelocityChange);  //restore the velocity
+
+			Debug.Log ("velocidad tras------------------" + vel.magnitude * Vector3.up);
+			m_RG.AddForce(vel.magnitude * Vector3.up, ForceMode.VelocityChange);  //restore the velocity
 		}
 
 		Debug.Log ("velocidad del objeto " + m_RG.velocity);

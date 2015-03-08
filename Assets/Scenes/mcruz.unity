@@ -404,6 +404,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11476944, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
+      propertyPath: gravityForce
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5476942, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
   m_RootGameObject: {fileID: 1205372410}
@@ -709,7 +717,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a264f736533c50429c866ac1cead24e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravityForce: 9.80000019
+  gravityForce: 1
 --- !u!114 &1205372412
 MonoBehaviour:
   m_ObjectHideFlags: 0
