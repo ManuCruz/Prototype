@@ -120,30 +120,39 @@ public class PlayerMovement : MonoBehaviour {
 			Vector3 vel = m_RG.velocity;  //get the velocity
 			m_RG.velocity = new Vector3(0,0,0);
 
-			//Debug.Log ("velocidad al empezar el cambio" + vel);
-			//Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
+			Debug.Log ("velocidad al empezar el cambio" + vel);
+			Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
 
 			switch (m_status){
 			case state.stop: 
 				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.right) * vel;
 				break;
 			case state.right:
 				transform.Rotate (transform.forward, toUp? 90 : -90, Space.World);
+				vel = Quaternion.AngleAxis(toUp? 90 : -90, transform.forward) * vel;
 				break;
 			case state.left:
 				transform.Rotate (transform.forward, toUp? -90 : 90, Space.World);
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.forward) * vel;
 				break;
 			}
 
 			AjustPosition();
 
-	//		m_RG.AddRelativeForce(vel, ForceMode.VelocityChange);  //restore the velocity
+		//	vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.right) * vel;
 
-			//Debug.Log ("velocidad tras------------------" + vel.magnitude * Vector3.up);
-			m_RG.AddForce(vel.magnitude * Vector3.up, ForceMode.VelocityChange);  //restore the velocity
+			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
+
+			//problemas conocidos:
+			//1.- en una caida sin fin, llega un momento donde se resetea la fuerza.
+			//		posible causa: se llama a la funcion DoTransition() en dos frames consecutivos  y no se ha terminado de aplicar la fuerza calculada 
+			//		en el primero de ellos. Esto produce que en el segundo, m_RG.velocity sea cero.
+
+		
 		}
 
-		//Debug.Log ("velocidad del objeto " + m_RG.velocity);
+		Debug.Log ("velocidad del objeto " + m_RG.velocity);
 	}
 
 	void AjustPosition(){
