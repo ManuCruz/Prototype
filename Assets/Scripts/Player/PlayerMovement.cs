@@ -148,6 +148,8 @@ public class PlayerMovement : MonoBehaviour {
 			//1.- en una caida sin fin, llega un momento donde se resetea la fuerza.
 			//		posible causa: se llama a la funcion DoTransition() en dos frames consecutivos  y no se ha terminado de aplicar la fuerza calculada 
 			//		en el primero de ellos. Esto produce que en el segundo, m_RG.velocity sea cero.
+			//2.- a veces el personaje se sale de los "limites"
+			//3.- en los saltos se atasca contra los obstaculos
 
 		
 		}
