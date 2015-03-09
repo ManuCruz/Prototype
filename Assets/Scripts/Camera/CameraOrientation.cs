@@ -22,7 +22,7 @@ public class CameraOrientation : MonoBehaviour {
 			if (mainCamera.transform.position == endPosition) {
 				mainCamera.transform.position = endPosition;
 			} else {
-				mainCamera.transform.position = Vector3.Slerp (mainCamera.transform.position, endPosition, speed * Time.deltaTime);
+				mainCamera.transform.position = Vector3.Lerp (mainCamera.transform.position, endPosition, speed * Time.deltaTime);
 				mainCamera.transform.LookAt (m_world.transform.position);
 			}
 		}

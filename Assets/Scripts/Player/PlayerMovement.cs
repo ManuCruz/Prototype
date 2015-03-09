@@ -120,8 +120,8 @@ public class PlayerMovement : MonoBehaviour {
 			Vector3 vel = m_RG.velocity;  //get the velocity
 			m_RG.velocity = new Vector3(0,0,0);
 
-			Debug.Log ("velocidad al empezar el cambio" + vel);
-			Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
+			//Debug.Log ("velocidad al empezar el cambio" + vel);
+			//Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
 
 			switch (m_status){
 			case state.stop: 
@@ -139,11 +139,11 @@ public class PlayerMovement : MonoBehaviour {
 
 	//		m_RG.AddRelativeForce(vel, ForceMode.VelocityChange);  //restore the velocity
 
-			Debug.Log ("velocidad tras------------------" + vel.magnitude * Vector3.up);
+			//Debug.Log ("velocidad tras------------------" + vel.magnitude * Vector3.up);
 			m_RG.AddForce(vel.magnitude * Vector3.up, ForceMode.VelocityChange);  //restore the velocity
 		}
 
-		Debug.Log ("velocidad del objeto " + m_RG.velocity);
+		//Debug.Log ("velocidad del objeto " + m_RG.velocity);
 	}
 
 	void AjustPosition(){

@@ -17,8 +17,10 @@ public class FollowCharacter : MonoBehaviour {
 	void Update () {
 		if (enable) {
 			Vector3 pos = m_player.transform.position.normalized;
-			Camera.main.transform.position = Vector3.Slerp(Camera.main.transform.position, pos * distance, speed * Time.deltaTime);
+			Camera.main.transform.position = Vector3.Lerp(Camera.main.transform.position, pos * distance, speed * Time.deltaTime);
+			/*Este lookat al mover la camara en "vertical" provoca que la camara se rote en direccion contraria a donde mira el personaje*/
 			Camera.main.transform.LookAt(m_world.transform.position);
+			//Camera.main.transform.Rotate(Camera.main.transform.forward, toUp? -90 : 90, Space.World);
 		}
 	}
 }
