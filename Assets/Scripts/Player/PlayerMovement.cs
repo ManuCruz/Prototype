@@ -73,7 +73,7 @@ public class PlayerMovement : MonoBehaviour {
 		if (m_canJump && m_toR && m_toL) {  //Jump
 			m_RG.AddRelativeForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
 			m_canJump = false;
-			m_canJump = false;
+			m_hasLanded = false;
 		} 
 
 		if(m_hasLanded && ((m_toR && !m_toL) || (!m_toR && m_toL)))
@@ -132,22 +132,21 @@ public class PlayerMovement : MonoBehaviour {
 			switch (m_status){
 			case state.stop: 
 				transform.Rotate (Vector3.right, toUp? -90 : 90);
-				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.InverseTransformVector (transform.right)) * vel;
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.right) * vel;
 				break;
 			case state.right:
 				transform.Rotate (Vector3.forward, toUp? 90 : -90);
-				vel = Quaternion.AngleAxis(toUp? 90 : -90, Vector3.forward) * vel;
+				vel = Quaternion.AngleAxis(toUp? 90 : -90, transform.forward) * vel;
 				break;
 			case state.left:
 				transform.Rotate (Vector3.forward, toUp? -90 : 90);
-				vel = Quaternion.AngleAxis(toUp? -90 : 90, Vector3.forward) * vel;
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.forward) * vel;
 				break;
 			}
 
 			AjustPosition();
 	
 			Debug.Log ("rotated vel " + vel);
-
 			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
 
 			//problemas conocidos:
