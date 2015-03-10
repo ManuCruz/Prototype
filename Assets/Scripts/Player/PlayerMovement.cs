@@ -13,7 +13,7 @@ public class PlayerMovement : MonoBehaviour {
 	enum state{stop, right, left};
 	private state m_status = state.stop;
 
-	private float m_semiWidth;
+	private float m_semiWidthScreen;
 	private bool m_toR = false;
 	private bool m_toL = false;
 
@@ -22,10 +22,9 @@ public class PlayerMovement : MonoBehaviour {
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
 
-		m_semiWidth = Camera.main.pixelWidth/2;
+		m_semiWidthScreen = Camera.main.pixelWidth/2;
 
-		float worldSize = GameObject.FindGameObjectWithTag(Tags.world).GetComponent<SizeScript>().worldSize;
-		m_absLimit = (worldSize + transform.localScale.z)/2;
+		m_absLimit = Mathf.Max (Mathf.Abs (transform.position.x), Mathf.Abs (transform.position.y), Mathf.Abs (transform.position.z));
 	}
 
 	void Update () {
@@ -38,6 +37,14 @@ public class PlayerMovement : MonoBehaviour {
 			Application.Quit();
 	}
 
+	/* Escribo hablando de derecha, para la izquierda es lo mismo.
+	 * Si se pulsa derecha, avanzar a la derecha.
+	 * si pulsando derecha, se pulsa izquieda (se mantenga o no), saltar hacia la derecha.
+	 * Si se pulsan los dos a la vez, se salta hacia arriba.
+	 * si se pulsan los dos y no se levantan, solo se salta una vez.
+	 * Si pulsando derecha se desliza el dedo, el personaje deja de avanzar.
+	 */
+	
 	void GetInput(){
 		m_toR = false;
 		m_toL = false;
@@ -45,7 +52,7 @@ public class PlayerMovement : MonoBehaviour {
 		//movil
 		for (var i = 0; i < Input.touchCount; ++i) {
 			if (Input.GetTouch(i).phase == TouchPhase.Began || Input.GetTouch(i).phase == TouchPhase.Stationary){
-				if (Input.GetTouch(i).position.x < m_semiWidth)
+				if (Input.GetTouch(i).position.x < m_semiWidthScreen)
 					m_toL = true;
 				else
 					m_toR = true;
@@ -62,7 +69,6 @@ public class PlayerMovement : MonoBehaviour {
 		//TEST
 		if (Input.GetKeyDown (KeyCode.Space)){
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
-//			m_RG.AddRelativeForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
 		}
 		if (Input.GetKey (KeyCode.UpArrow))
 			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
@@ -120,9 +126,6 @@ public class PlayerMovement : MonoBehaviour {
 			Vector3 vel = m_RG.velocity;  //get the velocity
 			m_RG.velocity = new Vector3(0,0,0);
 
-			Debug.Log ("velocidad al empezar el cambio" + vel);
-			Debug.Log ("velocidad tras el resetep" + m_RG.velocity);
-
 			switch (m_status){
 			case state.stop: 
 				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
@@ -140,8 +143,6 @@ public class PlayerMovement : MonoBehaviour {
 
 			AjustPosition();
 
-		//	vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.right) * vel;
-
 			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
 
 			//problemas conocidos:
@@ -150,11 +151,8 @@ public class PlayerMovement : MonoBehaviour {
 			//		en el primero de ellos. Esto produce que en el segundo, m_RG.velocity sea cero.
 			//2.- a veces el personaje se sale de los "limites"
 			//3.- en los saltos se atasca contra los obstaculos
-
-		
+			//4.- saltos seguidos en móvil
 		}
-
-		Debug.Log ("velocidad del objeto " + m_RG.velocity);
 	}
 
 	void AjustPosition(){
