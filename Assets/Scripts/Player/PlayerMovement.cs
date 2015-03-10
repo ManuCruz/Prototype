@@ -172,4 +172,12 @@ public class PlayerMovement : MonoBehaviour {
 	public void ResetJump(){
 		m_hasLanded = true;
 	}
+	
+	public bool isPlayerToRight(){
+		return m_toR;
+	}
+
+	public bool isPlayerToLeft(){
+		return m_toL;
+	}
 }
