@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour {
 
 	private Rigidbody m_RG;
 
-	private bool m_isJumping = false;
+	private bool m_canJump = true;
 	private bool m_hasLanded = true;
 
 	enum state{stop, right, left};
@@ -25,7 +25,8 @@ public class PlayerMovement : MonoBehaviour {
 
 		m_semiWidthScreen = Camera.main.pixelWidth/2;
 
-		m_absLimit = Mathf.Max (Mathf.Abs (transform.position.x), Mathf.Abs (transform.position.y), Mathf.Abs (transform.position.z));
+		Vector3 inverseTransform = transform.InverseTransformVector (transform.position);
+		m_absLimit = Mathf.Max (Mathf.Abs (inverseTransform.x), Mathf.Abs (inverseTransform.y), Mathf.Abs (inverseTransform.z));
 	}
 
 	void Update () {
@@ -60,87 +61,92 @@ public class PlayerMovement : MonoBehaviour {
 
 		//TEST
 		if (Input.GetKeyDown (KeyCode.Space)){
-			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
+			m_RG.AddRelativeForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
 		}
 		if (Input.GetKey (KeyCode.UpArrow))
-			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
+			transform.Translate (Vector3.up * speedMovement * Time.deltaTime);
 		if (Input.GetKey (KeyCode.DownArrow))
-			transform.Translate (transform.up * -speedMovement * Time.deltaTime, Space.World);
+			transform.Translate (Vector3.up * -speedMovement * Time.deltaTime);
 	}
 
 	void DoMovement(){
-		if (!m_isJumping && m_toR && m_toL) {  //Jump
-			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
-			m_isJumping = true;
-			m_hasLanded = false;
+		if (m_canJump && m_toR && m_toL) {  //Jump
+			m_RG.AddRelativeForce(Vector3.up * jumpForce, ForceMode.VelocityChange);
+			m_canJump = false;
+			m_canJump = false;
 		} 
 
 		if(m_hasLanded && ((m_toR && !m_toL) || (!m_toR && m_toL)))
-			m_isJumping = false;
+			m_canJump = true;
 
 		if (m_toR && !m_toL) {  //Right
 			if (m_status == state.stop)
-				transform.Rotate (transform.up, -90, Space.World);
+				transform.Rotate (Vector3.up, -90);
 			if (m_status == state.left)
-				transform.Rotate (transform.up, 180, Space.World);
+				transform.Rotate (Vector3.up, 180);
 			m_status = state.right;
 		} else if (m_toL && !m_toR) {  //Left
 			if (m_status == state.stop)
-				transform.Rotate (transform.up, 90, Space.World);
+				transform.Rotate (Vector3.up, 90);
 			if (m_status == state.right)
-				transform.Rotate (transform.up, 180, Space.World);
+				transform.Rotate (Vector3.up, 180);
 			m_status = state.left;
 		} else if (!m_toL && !m_toR){  //Stop
 			if (m_status == state.right)
-				transform.Rotate (transform.up, 90, Space.World);
+				transform.Rotate (Vector3.up, 90);
 			if (m_status == state.left)
-				transform.Rotate (transform.up, -90, Space.World);
+				transform.Rotate (Vector3.up, -90);
 			m_status = state.stop;
 		}
 
 		if (m_toR && m_status == state.right)
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+			transform.Translate (Vector3.forward * speedMovement * Time.deltaTime);
 
 		if (m_toL && m_status == state.left)
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+			transform.Translate (Vector3.forward * speedMovement * Time.deltaTime);
 	}
 		
 	void DoTransition(){
-		float dotForward = Vector3.Dot (transform.position, transform.forward);
-		
+		float dotForward = Mathf.Abs (Vector3.Dot (transform.InverseTransformVector (transform.position), Vector3.forward));
+
 		if (dotForward > m_absLimit && m_toR) { //right side
-			transform.Rotate (transform.up, -90, Space.World);
+			transform.Rotate (Vector3.up, -90);
 			AjustPosition();
 		}
 		else if (dotForward > m_absLimit && m_toL) { //left side
-			transform.Rotate (transform.up, 90, Space.World);
+			transform.Rotate (Vector3.up, 90);
 			AjustPosition();
 		}
 
-		float dotUp = Vector3.Dot (transform.position, transform.up);
+		float dotUp = Vector3.Dot (transform.InverseTransformVector (transform.position), Vector3.up);
 
 		if (dotUp > m_absLimit || dotUp < -m_absLimit) { //up and down sides
 			bool toUp = dotUp > m_absLimit;
 
 			Vector3 vel = m_RG.velocity;  //get the velocity
+	//		Vector3 vel = transform.InverseTransformVector (m_RG.velocity);
 			m_RG.velocity = new Vector3(0,0,0);
+
+			Debug.Log ("vel" + vel);
 
 			switch (m_status){
 			case state.stop: 
-				transform.Rotate (transform.right, toUp? -90 : 90, Space.World);
-				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.right) * vel;
+				transform.Rotate (Vector3.right, toUp? -90 : 90);
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.InverseTransformVector (transform.right)) * vel;
 				break;
 			case state.right:
-				transform.Rotate (transform.forward, toUp? 90 : -90, Space.World);
-				vel = Quaternion.AngleAxis(toUp? 90 : -90, transform.forward) * vel;
+				transform.Rotate (Vector3.forward, toUp? 90 : -90);
+				vel = Quaternion.AngleAxis(toUp? 90 : -90, Vector3.forward) * vel;
 				break;
 			case state.left:
-				transform.Rotate (transform.forward, toUp? -90 : 90, Space.World);
-				vel = Quaternion.AngleAxis(toUp? -90 : 90, transform.forward) * vel;
+				transform.Rotate (Vector3.forward, toUp? -90 : 90);
+				vel = Quaternion.AngleAxis(toUp? -90 : 90, Vector3.forward) * vel;
 				break;
 			}
 
 			AjustPosition();
+	
+			Debug.Log ("rotated vel " + vel);
 
 			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
 
@@ -155,18 +161,22 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void AjustPosition(){
-		if (transform.position.x > m_absLimit)
-			transform.position = new Vector3(m_absLimit, transform.position.y, transform.position.z);
-		else if (transform.position.x < -m_absLimit)
-			transform.position = new Vector3(-m_absLimit, transform.position.y, transform.position.z);
-		else if (transform.position.y > m_absLimit)
-			transform.position = new Vector3(transform.position.x, m_absLimit, transform.position.z);
-		else if (transform.position.y < -m_absLimit)
-			transform.position = new Vector3(transform.position.x, -m_absLimit, transform.position.z);
-		else if (transform.position.z > m_absLimit)
-			transform.position = new Vector3(transform.position.x, transform.position.y, m_absLimit);
-		else if (transform.position.z < -m_absLimit)
-			transform.position = new Vector3(transform.position.x, transform.position.y, -m_absLimit);
+		Vector3 inverseTransform = transform.InverseTransformVector (transform.position);
+
+		if (inverseTransform.x > m_absLimit)
+			inverseTransform = new Vector3(m_absLimit, inverseTransform.y, inverseTransform.z);
+		else if (inverseTransform.x < -m_absLimit)
+			inverseTransform = new Vector3(-m_absLimit, inverseTransform.y, inverseTransform.z);
+		else if (inverseTransform.y > m_absLimit)
+			inverseTransform = new Vector3(inverseTransform.x, m_absLimit, inverseTransform.z);
+		else if (inverseTransform.y < -m_absLimit)
+			inverseTransform = new Vector3(inverseTransform.x, -m_absLimit, inverseTransform.z);
+		else if (inverseTransform.z > m_absLimit)
+			inverseTransform = new Vector3(inverseTransform.x, inverseTransform.y, m_absLimit);
+		else if (inverseTransform.z < -m_absLimit)
+			inverseTransform = new Vector3(inverseTransform.x, inverseTransform.y, -m_absLimit);
+
+		transform.TransformVector (inverseTransform);
 	}
 
 	public void ResetJump(){
