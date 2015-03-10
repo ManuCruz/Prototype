@@ -9,6 +9,7 @@ public class PlayerMovement : MonoBehaviour {
 	private Rigidbody m_RG;
 
 	private bool m_isJumping = false;
+	private bool m_hasLanded = true;
 
 	enum state{stop, right, left};
 	private state m_status = state.stop;
@@ -36,14 +37,6 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) 
 			Application.Quit();
 	}
-
-	/* Escribo hablando de derecha, para la izquierda es lo mismo.
-	 * Si se pulsa derecha, avanzar a la derecha.
-	 * si pulsando derecha, se pulsa izquieda (se mantenga o no), saltar hacia la derecha.
-	 * Si se pulsan los dos a la vez, se salta hacia arriba.
-	 * si se pulsan los dos y no se levantan, solo se salta una vez.
-	 * Si pulsando derecha se desliza el dedo, el personaje deja de avanzar.
-	 */
 	
 	void GetInput(){
 		m_toR = false;
@@ -65,7 +58,6 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetKey (KeyCode.LeftArrow))
 			m_toL = true;
 
-
 		//TEST
 		if (Input.GetKeyDown (KeyCode.Space)){
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
@@ -80,30 +72,37 @@ public class PlayerMovement : MonoBehaviour {
 		if (!m_isJumping && m_toR && m_toL) {  //Jump
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
 			m_isJumping = true;
-		} else if (m_toR && !m_toL) {  //Right
+			m_hasLanded = false;
+		} 
+
+		if(m_hasLanded && ((m_toR && !m_toL) || (!m_toR && m_toL)))
+			m_isJumping = false;
+
+		if (m_toR && !m_toL) {  //Right
 			if (m_status == state.stop)
 				transform.Rotate (transform.up, -90, Space.World);
 			if (m_status == state.left)
 				transform.Rotate (transform.up, 180, Space.World);
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
-			
 			m_status = state.right;
 		} else if (m_toL && !m_toR) {  //Left
 			if (m_status == state.stop)
 				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.right)
 				transform.Rotate (transform.up, 180, Space.World);
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
-			
 			m_status = state.left;
 		} else if (!m_toL && !m_toR){  //Stop
 			if (m_status == state.right)
 				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.left)
 				transform.Rotate (transform.up, -90, Space.World);
-			
 			m_status = state.stop;
 		}
+
+		if (m_toR && m_status == state.right)
+			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+
+		if (m_toL && m_status == state.left)
+			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
 	}
 		
 	void DoTransition(){
@@ -171,6 +170,6 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	public void ResetJump(){
-		m_isJumping = false;
+		m_hasLanded = true;
 	}
 }
