@@ -22,9 +22,6 @@ public class PlayerMovement : MonoBehaviour {
 
 	private JumpCollisionScript m_jumpCollisionScript;
 
-	private bool m_applyForce = false;
-	private Vector3 m_force;	
-
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
 
@@ -44,13 +41,6 @@ public class PlayerMovement : MonoBehaviour {
 		//QUIT
 		if (Input.GetKeyDown(KeyCode.Escape)) 
 			Application.Quit();
-	}
-
-	void FixedUpdate(){
-		if (m_applyForce) {
-			m_applyForce = false;
-			m_RG.AddForce(m_force, ForceMode.VelocityChange);  //restore the velocity
-		}
 	}
 
 	void GetInput(){
@@ -157,8 +147,7 @@ public class PlayerMovement : MonoBehaviour {
 
 			AjustPosition();
 
-			m_applyForce = true;
-			m_force = vel;
+			m_RG.velocity = vel;  //restore the velocity (no se usa AddForce, porque ese metodo actualiza en el fixedupdate y ocasiona los parones)
 		}
 	}
 
