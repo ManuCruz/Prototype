@@ -83,6 +83,19 @@ public class RotateWorld : MonoBehaviour {
 				topSide =  (m_player.localPosition.y > 0);
 				bottomSide =  (m_player.localPosition.y < 0);
 			}
+		}else if (absLimit == Mathf.Abs (m_player.localPosition.y)) {
+			anglesFromRotateUp = (m_player.localPosition.y > 0) ? -90 : 90;
+			if(anglesFromRotateUp == -90){
+				rightSide = (m_player.localPosition.x > 0);
+				leftSide = (m_player.localPosition.x < 0);
+				topSide =  (m_player.localPosition.z > 0);
+				bottomSide =  (m_player.localPosition.z < 0);
+			}else{
+				rightSide = (m_player.localPosition.x > 0);
+				leftSide = (m_player.localPosition.x < 0);
+				topSide =  (m_player.localPosition.z < 0);
+				bottomSide =  (m_player.localPosition.z > 0);
+			}
 		}
 	}
 
@@ -102,16 +115,23 @@ public class RotateWorld : MonoBehaviour {
 				actualUpRotation = anglesFromRotateUp + angleVision;
 			else
 				actualUpRotation = anglesFromRotateUp - angleVision;
-			
+
 		else if (dotUp < m_absLimit && topSide)
 			actualUpRotation = anglesFromRotateUp;
 
-		/*
-		if (dotUp > m_absLimit && bottomSide) {
-			m_orientation = Quaternion.Euler (anglesFromRotateUp + angleVision, transform.localRotation.y, transform.localRotation.z);
-		} else if (dotUp < m_absLimit && bottomSide) {
-			m_orientation = Quaternion.Euler (anglesFromRotateUp, transform.localRotation.y, transform.localRotation.z);
-		}*/
+
+		if (dotUp > m_absLimit && bottomSide)
+			if (anglesFromRotate == 0)
+				actualUpRotation = anglesFromRotateUp + angleVision;
+			else if (anglesFromRotate == 180)
+				actualUpRotation = anglesFromRotateUp - angleVision;
+			else if (anglesFromRotate == -90)
+				actualUpRotation = anglesFromRotateUp - angleVision;
+			else
+				actualUpRotation = anglesFromRotateUp + angleVision;
+			
+		else if (dotUp < m_absLimit && bottomSide)
+			actualUpRotation = anglesFromRotateUp;
 
 		//HORIZONTAL
 		if (movement.isPlayerToRight() || movement.isPlayerToLeft()){
@@ -129,12 +149,17 @@ public class RotateWorld : MonoBehaviour {
 				actualForwardRotation = anglesFromRotate;
 			}
 		}
-	
-		if (anglesFromRotate == 90 || anglesFromRotate == -90)
-			m_orientation = Quaternion.Euler (0, actualForwardRotation, actualUpRotation);
-		else 
-			m_orientation = Quaternion.Euler (actualUpRotation, actualForwardRotation, 0);
-		
+		if (anglesFromRotateUp == 0) {
+			if (anglesFromRotate == 90 || anglesFromRotate == -90)
+				m_orientation = Quaternion.Euler (0, actualForwardRotation, actualUpRotation);
+			else 
+				m_orientation = Quaternion.Euler (actualUpRotation, actualForwardRotation, 0);
+		} else {
+			if (anglesFromRotate == 90 || anglesFromRotate == -90)
+				m_orientation = Quaternion.Euler (0, actualForwardRotation, actualUpRotation);
+			else
+				m_orientation = Quaternion.Euler (actualUpRotation, actualForwardRotation,0 );
+		}
 
 
 	}
