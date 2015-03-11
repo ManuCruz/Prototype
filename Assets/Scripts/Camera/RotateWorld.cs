@@ -13,6 +13,9 @@ public class RotateWorld : MonoBehaviour {
 	private Quaternion m_orientation;
 	private float anglesFromRotate;
 	private float anglesFromRotateUp;
+
+	private float actualUpRotation;
+	private float actualForwardRotation;
 	
 	private bool leftSide = false;
 	private bool rightSide = false;
@@ -26,7 +29,8 @@ public class RotateWorld : MonoBehaviour {
 		movement = m_player.gameObject.GetComponent<PlayerMovement> ();
 		m_orientation = Quaternion.Euler (0, 0, 0);
 		anglesFromRotate = 0;
-
+		actualUpRotation = 0;
+		actualForwardRotation = 0;
 		Vector3 inverseTransform = m_player.InverseTransformVector (m_player.position);
 		m_absLimit = Mathf.Max (Mathf.Abs (inverseTransform.x), Mathf.Abs (inverseTransform.y), Mathf.Abs (inverseTransform.z)) - paddingLimit;
 	}
@@ -83,51 +87,55 @@ public class RotateWorld : MonoBehaviour {
 	}
 
 	void LookWorld(){
-		//setlookrotation crea una rotacion con  el forward al que mirar y donde esta el up
-		//HORIZONTAL
-		if (movement.isPlayerToRight() || movement.isPlayerToLeft()){
-			float dotForward = Vector3.Dot (m_player.InverseTransformVector (m_player.position), Vector3.forward);
-			dotForward = Mathf.Abs (dotForward);
-			if (dotForward > m_absLimit && rightSide) {
-				m_orientation = Quaternion.Euler (0, anglesFromRotate + angleVision, 0);
-			} else if (dotForward < m_absLimit && rightSide) {
-				m_orientation = Quaternion.Euler (0, anglesFromRotate, 0);
-			}
-
-			if (dotForward > m_absLimit && leftSide) {
-				m_orientation = Quaternion.Euler (0, anglesFromRotate - angleVision, 0);
-			} else if (dotForward < m_absLimit && leftSide) {	
-				m_orientation = Quaternion.Euler (0, anglesFromRotate, 0);
-			}
-		}
 		//VERTICAL
-		
+		actualUpRotation = anglesFromRotateUp;
+
 		float dotUp = Vector3.Dot (m_player.InverseTransformVector (m_player.position), Vector3.up);
 		dotUp = Mathf.Abs (dotUp);
+		
+		if (dotUp > m_absLimit && topSide)
+			if (anglesFromRotate == 0)
+				actualUpRotation = anglesFromRotateUp - angleVision;
+			else if (anglesFromRotate == 180)
+				actualUpRotation = anglesFromRotateUp + angleVision;
+			else if (anglesFromRotate == -90)
+				actualUpRotation = anglesFromRotateUp + angleVision;
+			else
+				actualUpRotation = anglesFromRotateUp - angleVision;
+			
+		else if (dotUp < m_absLimit && topSide)
+			actualUpRotation = anglesFromRotateUp;
 
-		if (dotUp > m_absLimit && topSide) {
-			if (anglesFromRotate == 0 || anglesFromRotate == 180){
-				m_orientation = Quaternion.Euler (anglesFromRotateUp - angleVision, 0, 0);
-				//m_orientation = Quaternion.Euler (anglesFromRotate + angleVision,0, 0);
-				//m_orientation = Quaternion.AngleAxis(anglesFromRotate - angleVision, transform.right);
-			}else {
-				//m_orientation = Quaternion.AngleAxis(anglesFromRotate - angleVision, transform.forward);
-				m_orientation = Quaternion.Euler (transform.localRotation.x, transform.localRotation.y, anglesFromRotateUp - angleVision);
-				//m_orientation = Quaternion.Euler (anglesFromRotate + angleVision, 0, 0);
-			}
-
-		} else if (dotUp < m_absLimit && topSide) {
-			if (anglesFromRotate == 0 || anglesFromRotate == 180)
-				m_orientation = Quaternion.Euler(anglesFromRotateUp, transform.localRotation.y, transform.localRotation.z);
-			else 
-				m_orientation = Quaternion.Euler(transform.localRotation.x, transform.localRotation.y, anglesFromRotateUp);	
-		}
 		/*
 		if (dotUp > m_absLimit && bottomSide) {
 			m_orientation = Quaternion.Euler (anglesFromRotateUp + angleVision, transform.localRotation.y, transform.localRotation.z);
 		} else if (dotUp < m_absLimit && bottomSide) {
 			m_orientation = Quaternion.Euler (anglesFromRotateUp, transform.localRotation.y, transform.localRotation.z);
 		}*/
+
+		//HORIZONTAL
+		if (movement.isPlayerToRight() || movement.isPlayerToLeft()){
+			float dotForward = Vector3.Dot (m_player.InverseTransformVector (m_player.position), Vector3.forward);
+			dotForward = Mathf.Abs (dotForward);
+
+			if (dotForward > m_absLimit && rightSide)
+				actualForwardRotation = anglesFromRotate + angleVision;
+			else if (dotForward < m_absLimit && rightSide)
+				actualForwardRotation = anglesFromRotate;
+
+			if (dotForward > m_absLimit && leftSide) {
+				actualForwardRotation = anglesFromRotate - angleVision;
+			} else if (dotForward < m_absLimit && leftSide) {	
+				actualForwardRotation = anglesFromRotate;
+			}
+		}
+	
+		if (anglesFromRotate == 90 || anglesFromRotate == -90)
+			m_orientation = Quaternion.Euler (0, actualForwardRotation, actualUpRotation);
+		else 
+			m_orientation = Quaternion.Euler (actualUpRotation, actualForwardRotation, 0);
+		
+
 
 	}
 }
