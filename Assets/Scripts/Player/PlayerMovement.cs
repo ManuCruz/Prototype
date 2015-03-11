@@ -183,4 +183,19 @@ public class PlayerMovement : MonoBehaviour {
 	public bool isPlayerToLeft(){
 		return m_toL;
 	}
+	public bool isPlayerToUp(){
+		float dotProduct = Vector3.Dot(transform.InverseTransformDirection(m_RG.velocity), new Vector3(1,1,1));
+		//Debug.Log("dotProduct:" + dotProduct);
+		if (dotProduct > 0)
+			return true;
+		else
+			return false;
+	}
+	public bool isPlayerToDown(){
+		float dotProduct = Vector3.Dot(transform.InverseTransformDirection(m_RG.velocity), new Vector3(1,1,1));
+		if (dotProduct < 0)
+			return true;
+		else
+			return false;
+	}
 }

@@ -7,6 +7,7 @@ public class Tags {
 	public const string world = "World";
 	public const string floor = "Floor";
 	public const string enemy = "Enemy";
+	public const string axis = "Axis";
 	
 
 }
