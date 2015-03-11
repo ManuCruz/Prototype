@@ -22,6 +22,9 @@ public class PlayerMovement : MonoBehaviour {
 
 	private JumpCollisionScript m_jumpCollisionScript;
 
+	private bool m_applyForce = false;
+	private Vector3 m_force;	
+
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
 
@@ -42,7 +45,14 @@ public class PlayerMovement : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Escape)) 
 			Application.Quit();
 	}
-	
+
+	void FixedUpdate(){
+		if (m_applyForce) {
+			m_applyForce = false;
+			m_RG.AddForce(m_force, ForceMode.VelocityChange);  //restore the velocity
+		}
+	}
+
 	void GetInput(){
 		m_toR = false;
 		m_toL = false;
@@ -147,20 +157,13 @@ public class PlayerMovement : MonoBehaviour {
 
 			AjustPosition();
 
-			m_RG.AddForce(vel, ForceMode.VelocityChange);  //restore the velocity
+			m_applyForce = true;
+			m_force = vel;
 		}
 	}
 
 	void AjustPosition(){
 		Vector3 inverseTransform = transform.InverseTransformVector (transform.position);
-
-/*		if (Mathf.Abs (inverseTransform.x) > m_absLimit)
-			Debug.Log ("en x" + inverseTransform.x);
-		if (Mathf.Abs (inverseTransform.y) > m_absLimit)
-			Debug.Log ("en y" + inverseTransform.y);
-		if (Mathf.Abs (inverseTransform.z) > m_absLimit)
-			Debug.Log ("en z" + inverseTransform.z);
-		*/
 
 		if (inverseTransform.x > m_absLimit)
 			inverseTransform = new Vector3(m_absLimit, inverseTransform.y, inverseTransform.z);
