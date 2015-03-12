@@ -8,9 +8,7 @@ public class Tags {
 	public const string floor = "Floor";
 	public const string enemy = "Enemy";
 	public const string axis = "Axis";
-	public const string altarDoor = "AltarDoor";
-	public const string fader = "Fader";
-
+	public const string playerFeet = "PlayerFeet";
 	
 
 }
