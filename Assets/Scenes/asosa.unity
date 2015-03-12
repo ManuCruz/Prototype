@@ -73,7 +73,6 @@ NavMeshSettings:
     minRegionArea: 2
     widthInaccuracy: 16.666666
     heightInaccuracy: 10
-    tileSizeHint: 0
   m_NavMesh: {fileID: 0}
 --- !u!1 &337169554
 GameObject:
@@ -307,6 +306,7 @@ GameObject:
   - 54: {fileID: 1075783309}
   - 114: {fileID: 1075783308}
   - 114: {fileID: 1075783307}
+  - 114: {fileID: 1075783313}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -354,7 +354,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMovement: 3
-  jumpForce: 5
+  jumpForce: 8
 --- !u!54 &1075783309
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -413,6 +413,18 @@ MeshFilter:
   m_PrefabInternal: {fileID: 1948130257}
   m_GameObject: {fileID: 1075783305}
   m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1075783313
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 11410460, guid: 84b38baa8b363c7459bbdaee249a2707,
+    type: 2}
+  m_PrefabInternal: {fileID: 1948130257}
+  m_GameObject: {fileID: 1075783305}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9873a05ccfa8945b3e3455e661d174, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1102541542
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,7 +437,7 @@ GameObject:
   - 114: {fileID: 1102541543}
   m_Layer: 0
   m_Name: LandingTrigger
-  m_TagString: Untagged
+  m_TagString: PlayerFeet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
