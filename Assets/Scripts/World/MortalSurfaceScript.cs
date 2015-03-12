@@ -10,7 +10,6 @@ public class MortalSurfaceScript : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter(Collision collision) {
-		Debug.Log ("pinchos chocan con " + collision.gameObject.tag);
 		if (collision.gameObject.tag == Tags.player) {
 			m_playerStats.PlayerDead ();
 		}

@@ -9,4 +9,8 @@ public class PlayerStats : MonoBehaviour {
 		alive = false;
 		Debug.Log ("PJ muerto");
 	}
+
+	public void PlayerVictory(){
+		Debug.Log ("VICTORIA!!!");
+	}
 }
