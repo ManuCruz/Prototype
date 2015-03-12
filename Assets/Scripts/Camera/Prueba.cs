@@ -16,16 +16,15 @@ public class Prueba : MonoBehaviour {
 	private float m_angleY = 0;
 
 	//Cambiar de cara
-	private int m_state = 0;
-	private int m_prevState = 0;
+//	private int m_state = 0;
+//	private int m_prevState = 0;
 	private float m_angleVision = 45;
 	
 	//Limites de Cara
 	private float m_absLimit;
 	private float m_prevPositionX = 0;
 	private float m_prevPositionY = 0;
-	
-	
+
 	void Start () {
 		m_playerTransform = GameObject.FindGameObjectWithTag (Tags.player).transform;
 		m_playerMovement = m_playerTransform.gameObject.GetComponent<PlayerMovement> ();
@@ -35,7 +34,7 @@ public class Prueba : MonoBehaviour {
 	}
 	
 	void Update () {
-		actualState();
+//		actualState();
 		LookWorld();
 
 		MoveCamera();
@@ -45,7 +44,7 @@ public class Prueba : MonoBehaviour {
 		Camera.main.transform.position = new Vector3 (m_playerTransform.position.x, m_playerTransform.position.y, Camera.main.transform.position.z);	
 	}
 	
-	void actualState() {
+/*	void actualState() {
 		float absLimit = Mathf.Max (Mathf.Abs (m_playerTransform.localPosition.x), Mathf.Abs (m_playerTransform.localPosition.y), Mathf.Abs (m_playerTransform.localPosition.z));
 		
 		if (absLimit == Mathf.Abs (m_playerTransform.localPosition.z)) {
@@ -55,7 +54,7 @@ public class Prueba : MonoBehaviour {
 		}else if (absLimit == Mathf.Abs (m_playerTransform.localPosition.y)) {
 			m_state = 2;
 		}
-	}
+	}*/
 	
 	void LookWorld(){
 		//HORIZONTAL
@@ -137,15 +136,15 @@ public class Prueba : MonoBehaviour {
 			float aux_angleX = Mathf.Repeat(m_angleX, 90);
 
 			if(aux_angleX == 0){
-				transform.Rotate(Vector3.up * -angleX, Space.World);	
-				transform.Rotate(Vector3.right * -m_angleY, Space.World);
-				transform.Rotate(Vector3.up * angleX, Space.World);	
+				transform.Rotate(transform.up * -angleX, Space.World);	
+				transform.Rotate(transform.right * -m_angleY, Space.World);
+				transform.Rotate(transform.up * angleX, Space.World);	
 			}
 
-			transform.Rotate(Vector3.up * angleX, Space.World);	
+			transform.Rotate(transform.up * angleX, Space.World);	
 
 			if(aux_angleX == 0)
-				transform.Rotate(Vector3.right * m_angleY, Space.World);
+				transform.Rotate(transform.right * m_angleY, Space.World);
 		}
 		
 		if (rotateY) {
@@ -154,15 +153,15 @@ public class Prueba : MonoBehaviour {
 			float aux_angleY = Mathf.Repeat(m_angleY, 90);
 
 			if(aux_angleY == 0){
-				transform.Rotate(Vector3.right * angleY, Space.World);	
-				transform.Rotate(Vector3.up * -m_angleX, Space.World);
-				transform.Rotate(Vector3.right * -angleY, Space.World);	
+				transform.Rotate(transform.right * angleY, Space.World);	
+				transform.Rotate(transform.up * -m_angleX, Space.World);
+				transform.Rotate(transform.right * -angleY, Space.World);	
 			}
 			
-			transform.Rotate(Vector3.right * angleY, Space.World);	
+			transform.Rotate(transform.right * angleY, Space.World);	
 			
 			if(aux_angleY == 0)
-				transform.Rotate(Vector3.up * m_angleX, Space.World);
+				transform.Rotate(transform.up * m_angleX, Space.World);
 		}
 	}
 	
