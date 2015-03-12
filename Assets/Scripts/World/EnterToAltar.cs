@@ -11,7 +11,6 @@ public class EnterToAltar : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == Tags.player) {
-			Debug.Log ("colision con puerta");
 			if(transform.up == other.transform.up)
 				m_playerStats.PlayerVictory();
 		}

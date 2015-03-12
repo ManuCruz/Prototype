@@ -2,15 +2,29 @@
 using System.Collections;
 
 public class PlayerStats : MonoBehaviour {
+	
+	private bool m_alive;
+	private bool m_victory;
+	
+	private SceneFadeInOut m_sceneFadeInOut;
 
-	bool alive = true;
+	void Start(){
+		m_alive = true;
+		m_victory = false;
+		m_sceneFadeInOut = GameObject.FindGameObjectWithTag(Tags.fader).GetComponentInChildren<SceneFadeInOut>();
+	}
 
 	public void PlayerDead(){
-		alive = false;
-		Debug.Log ("PJ muerto");
+		if(m_alive)
+			m_sceneFadeInOut.End("Game Over");
+
+		m_alive = false;
 	}
 
 	public void PlayerVictory(){
-		Debug.Log ("VICTORIA!!!");
+		if(!m_victory)
+		m_sceneFadeInOut.End("Victory");
+
+		m_victory = true;
 	}
 }
