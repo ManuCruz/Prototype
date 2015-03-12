@@ -3,16 +3,16 @@ using System.Collections;
 
 public class EnterToAltar : MonoBehaviour {
 
-	private PlayerStats m_playerStats;
+	private GameManager m_gameManager;
 	
 	void Start () {
-		m_playerStats = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerStats>();
+		m_gameManager = GameObject.FindGameObjectWithTag(Tags.gameManager).GetComponent<GameManager>();
 	}
 
 	void OnTriggerEnter(Collider other) {
 		if (other.tag == Tags.player) {
 			if(transform.up == other.transform.up)
-				m_playerStats.PlayerVictory();
+				m_gameManager.PlayerVictory();
 		}
 	}
 }

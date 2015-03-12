@@ -10,16 +10,14 @@ public class SceneFadeInOut : MonoBehaviour {
 	private Image m_image;
 	private Text m_text;
 	
-	void Start ()
-	{
+	void Start (){
 		m_image = GetComponent<Image>();
 		m_image.color = Color.black;
 		m_text = GetComponentInParent<Text> ();
 		m_text.text = "New Game";
 	}
 	
-	void Update ()
-	{
+	void Update (){
 		if(m_sceneStarting)
 			StartScene();
 		if(m_sceneEnding)
@@ -27,24 +25,21 @@ public class SceneFadeInOut : MonoBehaviour {
 	}
 	
 	
-	void FadeToClear ()
-	{
+	void FadeToClear (){
 		m_image.color = Color.Lerp(m_image.color, Color.clear, fadeSpeed * Time.deltaTime);
 	}
 	
 	
-	void FadeToBlack ()
-	{
+	void FadeToBlack (){
 		m_image.color = Color.Lerp(m_image.color, Color.black, fadeSpeed * Time.deltaTime);
 	}
 	
 	
-	void StartScene ()
-	{
+	void StartScene (){
 
 		FadeToClear();
 		
-		if(m_image.color.a <= 0.05f)
+		if(m_image.color.a <= 0.15f)
 		{
 			m_image.color = Color.clear;
 			m_image.enabled = false;
@@ -60,8 +55,8 @@ public class SceneFadeInOut : MonoBehaviour {
 		m_text.enabled = true;
 	}
 	
-	void EndScene ()
-	{
+	void EndScene (){
+		m_sceneStarting = false;
 		m_image.enabled = true;
 		
 		FadeToBlack();

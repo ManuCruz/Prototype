@@ -8,6 +8,8 @@ TagManager:
   - Enemy
   - Axis
   - PlayerFeet
+  - GameManager
+  - Fader
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

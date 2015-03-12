@@ -132,36 +132,36 @@ public class Prueba : MonoBehaviour {
 		
 		if (rotateX) {
 			m_angleX += angleX;
-			m_angleX = Mathf.Repeat(m_angleX, 360);
-			float aux_angleX = Mathf.Repeat(m_angleX, 90);
+//			m_angleX = Mathf.Repeat(m_angleX, 360);
+//			float aux_angleX = Mathf.Repeat(m_angleX, 90);
 
-			if(aux_angleX == 0){
-				transform.Rotate(transform.up * -angleX, Space.World);	
-				transform.Rotate(transform.right * -m_angleY, Space.World);
-				transform.Rotate(transform.up * angleX, Space.World);	
-			}
+//			if(aux_angleX == 0){
+//				transform.Rotate(transform.up * -angleX, Space.World);	
+//				transform.Rotate(transform.right * -m_angleY, Space.World);
+//				transform.Rotate(transform.up * angleX, Space.World);	
+//			}
 
 			transform.Rotate(transform.up * angleX, Space.World);	
 
-			if(aux_angleX == 0)
-				transform.Rotate(transform.right * m_angleY, Space.World);
+//			if(aux_angleX == 0)
+//				transform.Rotate(transform.right * m_angleY, Space.World);
 		}
 		
 		if (rotateY) {
 			m_angleY += angleY;
-			m_angleY = Mathf.Repeat(m_angleY, 360);
-			float aux_angleY = Mathf.Repeat(m_angleY, 90);
+//			m_angleY = Mathf.Repeat(m_angleY, 360);
+//			float aux_angleY = Mathf.Repeat(m_angleY, 90);
 
-			if(aux_angleY == 0){
-				transform.Rotate(transform.right * angleY, Space.World);	
-				transform.Rotate(transform.up * -m_angleX, Space.World);
-				transform.Rotate(transform.right * -angleY, Space.World);	
-			}
+//			if(aux_angleY == 0){
+//				transform.Rotate(transform.right * angleY, Space.World);	
+//				transform.Rotate(transform.up * -m_angleX, Space.World);
+//				transform.Rotate(transform.right * -angleY, Space.World);	
+//			}
 			
 			transform.Rotate(transform.right * angleY, Space.World);	
 			
-			if(aux_angleY == 0)
-				transform.Rotate(transform.up * m_angleX, Space.World);
+//			if(aux_angleY == 0)
+//				transform.Rotate(transform.up * m_angleX, Space.World);
 		}
 	}
 	

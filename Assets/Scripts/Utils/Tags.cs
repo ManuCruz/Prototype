@@ -10,6 +10,9 @@ public class Tags {
 	public const string axis = "Axis";
 	public const string fader = "Fader";
 	public const string playerFeet = "PlayerFeet";
+	public const string gameManager = "GameManager";
+
+
 	
 
 }

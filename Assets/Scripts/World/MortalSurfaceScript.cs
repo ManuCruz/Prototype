@@ -3,15 +3,15 @@ using System.Collections;
 
 public class MortalSurfaceScript : MonoBehaviour {
 
-	private PlayerStats m_playerStats;
+	private GameManager m_gameManager;
 	
 	void Start () {
-		m_playerStats = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerStats>();
+		m_gameManager = GameObject.FindGameObjectWithTag(Tags.gameManager).GetComponent<GameManager>();
 	}
 	
 	void OnCollisionEnter(Collision collision) {
 		if (collision.gameObject.tag == Tags.player) {
-			m_playerStats.PlayerDead ();
+			m_gameManager.PlayerDead ();
 		}
 	}
 }
