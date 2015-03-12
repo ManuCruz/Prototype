@@ -2,169 +2,168 @@
 using System.Collections;
 
 public class Prueba : MonoBehaviour {
-
-
+	
+	
 	public float paddingLimit = 1f;
-	public float angleVision = 45;
 	public float rotationSpeed = 5f;
-
+	
 	//Objetos relacionados
-	private Transform m_parentWorld;
-	private Transform m_player;
-	private PlayerMovement movement;
-
+	private Transform m_playerTransform;
+	private PlayerMovement m_playerMovement;
+	
 	//Temas de rotacion
-	private Vector3 m_angle;
-	private bool rotationAplied = false;
-	private bool rotationUpAplied = false;
-	private Vector3 rotation = Vector3.zero;
+	private float m_angleX = 0;
+	private float m_angleY = 0;
 
 	//Cambiar de cara
-	private int state = 0;
-	private int prevState = 0;
-	private bool changeFace = false;
-
+	private int m_state = 0;
+	private int m_prevState = 0;
+	private float m_angleVision = 45;
+	
 	//Limites de Cara
 	private float m_absLimit;
-	private float prevPlayerForward = 0;
-	private float prevPlayerUp = 0;	
-
+	private float m_prevPositionX = 0;
+	private float m_prevPositionY = 0;
+	
+	
 	void Start () {
-		m_parentWorld = GameObject.FindGameObjectWithTag(Tags.axis).transform;
-		m_player = GameObject.FindGameObjectWithTag (Tags.player).transform;
-		movement = m_player.gameObject.GetComponent<PlayerMovement> ();
+		m_playerTransform = GameObject.FindGameObjectWithTag (Tags.player).transform;
+		m_playerMovement = m_playerTransform.gameObject.GetComponent<PlayerMovement> ();
 
-		m_angle.x = angleVision;
-		m_angle.y = angleVision;
-		m_angle.z = angleVision;
-
-		Vector3 inverseTransform = m_player.InverseTransformVector (m_player.position);
+		Vector3 inverseTransform = m_playerTransform.InverseTransformVector (m_playerTransform.position);
 		m_absLimit = Mathf.Max (Mathf.Abs (inverseTransform.x), Mathf.Abs (inverseTransform.y), Mathf.Abs (inverseTransform.z)) - paddingLimit;
 	}
-
+	
 	void Update () {
-		actualAngles();
+		actualState();
 		LookWorld();
-		rotateWorld();
+
 		MoveCamera();
-		rotation = Vector3.zero;
-	}
-
-
-	void rotateWorld(){
-		transform.Rotate(rotation, Space.World);
 	}
 
 	void MoveCamera(){
-		Camera.main.transform.position = new Vector3 (m_player.position.x, m_player.position.y, Camera.main.transform.position.z);	
+		Camera.main.transform.position = new Vector3 (m_playerTransform.position.x, m_playerTransform.position.y, Camera.main.transform.position.z);	
 	}
-
-	void actualAngles() {
-		float absLimit = Mathf.Max (Mathf.Abs (m_player.localPosition.x), Mathf.Abs (m_player.localPosition.y), Mathf.Abs (m_player.localPosition.z));
-
-		if (absLimit == Mathf.Abs (m_player.localPosition.z)) {
-			state = 0;
-		} else if (absLimit == Mathf.Abs (m_player.localPosition.x)) {
-			state = 1;
-		}else if (absLimit == Mathf.Abs (m_player.localPosition.y)) {
-			state = 2;
+	
+	void actualState() {
+		float absLimit = Mathf.Max (Mathf.Abs (m_playerTransform.localPosition.x), Mathf.Abs (m_playerTransform.localPosition.y), Mathf.Abs (m_playerTransform.localPosition.z));
+		
+		if (absLimit == Mathf.Abs (m_playerTransform.localPosition.z)) {
+			m_state = 0;
+		} else if (absLimit == Mathf.Abs (m_playerTransform.localPosition.x)) {
+			m_state = 1;
+		}else if (absLimit == Mathf.Abs (m_playerTransform.localPosition.y)) {
+			m_state = 2;
 		}
 	}
-
+	
 	void LookWorld(){
-		if (state != prevState) {
-			changeFace = true;
-			//rotationAplied = false;
-			//rotationUpAplied = false;
-		}
-
-		LookHorizontal();
-		LookVertical();
-		prevState = state;
-	}
-
-	void LookHorizontal(){
 		//HORIZONTAL
-		float dotForward = Vector3.Dot (m_player.InverseTransformVector (m_player.position), Vector3.forward);
+		float dotForward = Vector3.Dot (m_playerTransform.InverseTransformVector (m_playerTransform.position), Vector3.forward);
 		dotForward = Mathf.Abs (dotForward);
-		if (dotForward > m_absLimit && movement.isPlayerToRight ()) {
-			if (!rotationAplied) {
-				rotation += m_angle;
-				rotation.x *= m_parentWorld.up.x;
-				rotation.y *= m_parentWorld.up.y;
-				rotation.z *= m_parentWorld.up.z;
-				
-				rotationAplied = true;
+		
+		bool rotateX = false;
+		float angleX = 0;
+		if (dotForward > m_absLimit && m_playerMovement.isPlayerToRight ()) {
+			if (m_prevPositionX < m_absLimit ) {
+				rotateX = true;
+				angleX = m_angleVision;
 			}
-			prevPlayerForward = dotForward;
-
-		} else if (dotForward < m_absLimit && movement.isPlayerToRight () && changeFace) {
-			rotation += m_angle;
-			rotation.x *= m_parentWorld.up.x;
-			rotation.y *= m_parentWorld.up.y;
-			rotation.z *= m_parentWorld.up.z;
-			changeFace = false;
-			rotationAplied = false;
+			m_prevPositionX = dotForward;
 		}
-
-		if (dotForward > m_absLimit && movement.isPlayerToLeft()) {
-			if (!rotationAplied){
-				rotation -= m_angle;
-				rotation.x *= m_parentWorld.up.x;
-				rotation.y *= m_parentWorld.up.y;
-				rotation.z *= m_parentWorld.up.z;
-				rotationAplied = true;
+		if (dotForward < m_absLimit && m_playerMovement.isPlayerToRight ()) {
+			if(m_prevPositionX > m_absLimit){
+				rotateX = true;
+				angleX = m_angleVision;
 			}
-			prevPlayerForward = dotForward;
-		} else if (dotForward < m_absLimit && movement.isPlayerToLeft () && changeFace) {
-			rotation -= m_angle;
-			rotation.x *= m_parentWorld.up.x;
-			rotation.y *= m_parentWorld.up.y;
-			rotation.z *= m_parentWorld.up.z;
-			changeFace = false;
-			rotationAplied = false;
+			m_prevPositionX = dotForward;
 		}
-	}
-
-	void LookVertical(){
+		
+		if (dotForward > m_absLimit && m_playerMovement.isPlayerToLeft()) {
+			if (m_prevPositionX < m_absLimit){
+				rotateX = true;
+				angleX = -m_angleVision;
+			}
+			m_prevPositionX = dotForward;
+		}
+		
+		if (dotForward < m_absLimit && m_playerMovement.isPlayerToLeft ()) {
+			if(m_prevPositionX > m_absLimit){
+				rotateX = true;
+				angleX = -m_angleVision;
+			}
+			m_prevPositionX = dotForward;
+		}
+		
 		//VERTICAL
-		float dotUp = Vector3.Dot (m_player.InverseTransformVector (m_player.position), Vector3.up);
+		float dotUp = Vector3.Dot (m_playerTransform.InverseTransformVector (m_playerTransform.position), Vector3.up);
 		dotUp = Mathf.Abs (dotUp);
-		if (dotUp > m_absLimit && movement.isPlayerToUp ()) {
-			if (!rotationAplied) {
-				rotation -= m_angle;
-				rotation.x *= m_parentWorld.right.x;
-				rotation.y *= m_parentWorld.right.y;
-				rotation.z *= m_parentWorld.right.z;
-				rotationAplied = true;
+		
+		bool rotateY = false;
+		float angleY = 0;
+		if (dotUp > m_absLimit && m_playerMovement.isPlayerToUp ()) {
+			if (m_prevPositionY < m_absLimit) {
+				rotateY = true;
+				angleY = -m_angleVision;
 			}
-			prevPlayerUp = dotUp;
-		} else if (dotUp < m_absLimit && movement.isPlayerToUp () && changeFace) {
-			rotation -= m_angle;
-			rotation.x *= m_parentWorld.right.x;
-			rotation.y *= m_parentWorld.right.y;
-			rotation.z *= m_parentWorld.right.z;
-			changeFace = false;
-			rotationAplied = false;
+			m_prevPositionY = dotUp;
+		} 
+		if (dotUp < m_absLimit && m_playerMovement.isPlayerToUp ()) {
+			if(m_prevPositionY > m_absLimit){
+				rotateY = true;
+				angleY = -m_angleVision;
+			}
+			m_prevPositionY = dotUp;
 		}
-
-		if (dotUp > m_absLimit && movement.isPlayerToDown()) {
-			if (!rotationAplied){
-				rotation += m_angle;
-				rotation.x *= m_parentWorld.right.x;
-				rotation.y *= m_parentWorld.right.y;
-				rotation.z *= m_parentWorld.right.z;
-				rotationAplied = true;
+		
+		if (dotUp > m_absLimit && m_playerMovement.isPlayerToDown()) {
+			if (m_prevPositionY < m_absLimit){
+				rotateY = true;
+				angleY = m_angleVision;
 			}
-			prevPlayerUp = dotUp;
-		}else if (dotUp < m_absLimit && movement.isPlayerToDown () && changeFace) {
-			rotation += m_angle;
-			rotation.x *= m_parentWorld.right.x;
-			rotation.y *= m_parentWorld.right.y;
-			rotation.z *= m_parentWorld.right.z;
-			changeFace = false;
-			rotationAplied = false;
+			m_prevPositionY = dotUp;
+		}
+		if (dotUp < m_absLimit && m_playerMovement.isPlayerToDown ()) {
+			if(m_prevPositionY > m_absLimit){
+				rotateY = true;
+				angleY = m_angleVision;
+			}
+			m_prevPositionY = dotUp;
+		}
+		
+		if (rotateX) {
+			m_angleX += angleX;
+			m_angleX = Mathf.Repeat(m_angleX, 360);
+			float aux_angleX = Mathf.Repeat(m_angleX, 90);
+
+			if(aux_angleX == 0){
+				transform.Rotate(Vector3.up * -angleX, Space.World);	
+				transform.Rotate(Vector3.right * -m_angleY, Space.World);
+				transform.Rotate(Vector3.up * angleX, Space.World);	
+			}
+
+			transform.Rotate(Vector3.up * angleX, Space.World);	
+
+			if(aux_angleX == 0)
+				transform.Rotate(Vector3.right * m_angleY, Space.World);
+		}
+		
+		if (rotateY) {
+			m_angleY += angleY;
+			m_angleY = Mathf.Repeat(m_angleY, 360);
+			float aux_angleY = Mathf.Repeat(m_angleY, 90);
+
+			if(aux_angleY == 0){
+				transform.Rotate(Vector3.right * angleY, Space.World);	
+				transform.Rotate(Vector3.up * -m_angleX, Space.World);
+				transform.Rotate(Vector3.right * -angleY, Space.World);	
+			}
+			
+			transform.Rotate(Vector3.right * angleY, Space.World);	
+			
+			if(aux_angleY == 0)
+				transform.Rotate(Vector3.up * m_angleX, Space.World);
 		}
 	}
-
+	
 }
