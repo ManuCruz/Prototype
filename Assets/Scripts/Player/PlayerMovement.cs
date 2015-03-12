@@ -37,10 +37,6 @@ public class PlayerMovement : MonoBehaviour {
 		GetInput ();
 		DoMovement ();
 		DoTransition ();
-
-		//QUIT
-		if (Input.GetKeyDown(KeyCode.Escape)) 
-			Application.Quit();
 	}
 
 	void GetInput(){

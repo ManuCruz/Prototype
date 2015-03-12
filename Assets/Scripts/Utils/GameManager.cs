@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour {
 		m_playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
 	}
 
+	void Update(){
+		//QUIT
+		if (Input.GetKeyDown (KeyCode.Escape)) 
+			Application.Quit ();
+	}
+
 	public void PlayerDead(){
 		if (m_alive) {
 			m_sceneFadeInOut.End ("Game Over");
