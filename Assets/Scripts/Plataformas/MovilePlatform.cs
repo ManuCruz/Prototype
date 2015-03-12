@@ -19,13 +19,17 @@ public class MovilePlatform : MonoBehaviour {
 	
 
 	void Update () {
-		float actualPosition = Vector3.Dot(transform.position, transform.right);
+		movePlatform();
+	}
 
+	void movePlatform(){
+		float actualPosition = Vector3.Dot(transform.position, transform.right);
+		
 		if (actualPosition > m_maxPosition)
 			m_direction = -1;
 		else if (actualPosition < m_minPosition)
 			m_direction = 1;
-
+		
 		transform.position += transform.right * speed * Time.deltaTime * m_direction;
 	}
 
