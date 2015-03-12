@@ -7,7 +7,7 @@ TagManager:
   - Floor
   - Enemy
   - Axis
-  - AltarDoor
+  - PlayerFeet
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
