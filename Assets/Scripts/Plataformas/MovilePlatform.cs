@@ -13,7 +13,7 @@ public class MovilePlatform : MonoBehaviour {
 
 	void Start () {
 		//posiciones iniciales y finales
-		m_minPosition = Vector3.Dot(transform.position, transform.right);
+		m_minPosition = Vector3.Dot(transform.position, transform.right) - distance;
 		m_maxPosition = Vector3.Dot(transform.position, transform.right) + distance;	 
 	}
 	
