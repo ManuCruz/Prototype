@@ -83,8 +83,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 69152961}
-  - 135: {fileID: 69152963}
   - 114: {fileID: 69152962}
+  - 65: {fileID: 69152963}
   m_Layer: 0
   m_Name: MaterializationTrigger
   m_TagString: Untagged
@@ -100,7 +100,7 @@ Transform:
   m_GameObject: {fileID: 69152960}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.50049973, y: 1.50049961, z: 1.50049961}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1204302466}
   m_RootOrder: 0
@@ -116,10 +116,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e9e22f132900421090c7f133a7a798a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &69152963
-SphereCollider:
+--- !u!65 &69152963
+BoxCollider:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 13518830, guid: ca29a42d07d85c0498d1a4a2e7589065,
+  m_PrefabParentObject: {fileID: 6526748, guid: ca29a42d07d85c0498d1a4a2e7589065,
     type: 2}
   m_PrefabInternal: {fileID: 1638333658}
   m_GameObject: {fileID: 69152960}
@@ -127,7 +127,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: .5
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &82165504
 GameObject:
