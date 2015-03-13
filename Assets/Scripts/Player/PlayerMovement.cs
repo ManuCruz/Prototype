@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour {
 		GetInput ();
 		DoMovement ();
 		DoTransition ();
+		AjustPosition();
 	}
 
 	void GetInput(){
@@ -44,7 +45,7 @@ public class PlayerMovement : MonoBehaviour {
 		m_toL = false;
 
 		//movil
-		for (var i = 0; i < Input.touchCount; ++i) {
+		for (int i = 0; i < Input.touchCount; ++i) {
 			if (Input.GetTouch(i).phase == TouchPhase.Began || Input.GetTouch(i).phase == TouchPhase.Stationary){
 				if (Input.GetTouch(i).position.x < m_semiWidthScreen)
 					m_toL = true;
