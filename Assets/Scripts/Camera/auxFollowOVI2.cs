@@ -41,37 +41,9 @@ public class auxFollowOVI2 : MonoBehaviour {
 
 		m_cameraTransform.position = pos;
 
-
-
-
-
-
-
-
-
-
-		//m_cameraTransform.up = m_playerTransform.up; // no works
-
-		//m_cameraTransform.rotation = m_playerTransform.rotation; // no works
-
-
-
-
 		m_cameraTransform.LookAt (m_playerTransform.position);
 
-
-		Debug.Log ("m_cameraTransform.up " + m_cameraTransform.up);
-		Debug.Log ("m_playerTransform.up " + m_playerTransform.up);
-
-		Debug.Log ("Vector3.Dot " + Vector3.Dot (m_cameraTransform.up, m_playerTransform.up));
-
-		while (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.05) {
+		while (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.05)
 			m_cameraTransform.Rotate (Vector3.forward * -90);
-			Debug.Log ("dentro");
-		}
-
-
-
-
 	}
 }
