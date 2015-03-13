@@ -11,6 +11,8 @@ public class Tags {
 	public const string fader = "Fader";
 	public const string playerFeet = "PlayerFeet";
 	public const string gameManager = "GameManager";
+	public const string key = "Key";
+	
 
 
 	

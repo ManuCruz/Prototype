@@ -4,7 +4,7 @@ using System.Collections;
 public class KillPlayer : MonoBehaviour {
 
 	private GameManager m_gameManager;
-	
+
 	void Start () {
 		m_gameManager = GameObject.FindGameObjectWithTag(Tags.gameManager).GetComponent<GameManager>();
 	}
