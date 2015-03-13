@@ -52,4 +52,8 @@ public class IntermittentPlatform : MonoBehaviour {
 		m_update = status;
 	}
 
+	public bool getActived(){
+		return m_actived;
+	}
+
 }

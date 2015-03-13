@@ -11,14 +11,14 @@ public class MaterializationTrigger : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other)
 	{
-		if (other.gameObject.tag == Tags.player)
+		if (other.gameObject.tag == Tags.player && !m_intermite.getActived())
 			m_intermite.changeUpdateStatus (false);
 		
 	}
 
 	void OnTriggerStay(Collider other)
 	{
-		if (other.gameObject.tag == Tags.player) 
+		if (other.gameObject.tag == Tags.player && !m_intermite.getActived()) 
 			m_intermite.changeUpdateStatus (false);
 		
 	}
