@@ -61,7 +61,7 @@ public class PlayerMovement : MonoBehaviour {
 			m_toL = true;
 
 		//TEST
-		if (Input.GetKeyDown (KeyCode.Space)){
+		if (!m_isJumping && Input.GetKeyDown (KeyCode.Space)){
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
 			m_isJumping = true;
 			m_hasLanded = false;
@@ -102,21 +102,25 @@ public class PlayerMovement : MonoBehaviour {
 			m_status = state.stop;
 		}
 
-		if (m_toR && m_status == state.right && !m_jumpCollisionScript.IsCollidingWithWall ())
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+		bool colWithWall = m_jumpCollisionScript.IsCollidingWithWall ();
 
-		if (m_toL && m_status == state.left && !m_jumpCollisionScript.IsCollidingWithWall ())
-			transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+		if (!colWithWall) {
+			if (m_toR && m_status == state.right)
+				transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+
+			if (m_toL && m_status == state.left)
+				transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
+		}
 	}
 		
 	void DoTransition(){
 		float dotForward = Vector3.Dot (transform.position, transform.forward);
-		
+
 		if (dotForward > m_absLimit && m_toR) { //right side
 			transform.Rotate (transform.up, -90, Space.World);
 			AjustPosition();
 		}
-		else if (dotForward > m_absLimit && m_toL) { //left side
+		if (dotForward > m_absLimit && m_toL) { //left side
 			transform.Rotate (transform.up, 90, Space.World);
 			AjustPosition();
 		}
