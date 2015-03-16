@@ -8,11 +8,11 @@ public class IntermittentPlatform : MonoBehaviour {
 	
 	private bool m_update = true;
 	private float m_elapsed = 0f;
-	private bool m_actived = true;
+	private bool m_actived;
 
 	void Start () {
 		m_elapsed = 0f;
-		m_actived = true;
+		m_actived = renderer.enabled;
 	}
 
 	void Update () {
