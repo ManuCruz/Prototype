@@ -10,15 +10,18 @@ public class JumpCollisionScript : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		m_collisionWithWall = true;
+		if (other.tag != Tags.enemy)
+			m_collisionWithWall = true;
 	}
 
 	void OnTriggerStay(Collider other) {
-		m_collisionWithWall = true;
+		if (other.tag != Tags.enemy)
+			m_collisionWithWall = true;
 	}
 
 	void OnTriggerExit(Collider other) {
-		m_collisionWithWall = false;
+		if (other.tag != Tags.enemy)
+			m_collisionWithWall = false;
 	}
 
 	public bool IsCollidingWithWall(){

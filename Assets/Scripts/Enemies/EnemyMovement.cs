@@ -3,7 +3,8 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour {
 //siempre se mueve en el right
-	public float  distance = 1;
+	public float rightDistance = 1;
+	public float leftDistance = 1;
 	public float speed = 1;
 
 	private float m_maxPosition = 0;
@@ -12,8 +13,8 @@ public class EnemyMovement : MonoBehaviour {
 
 	void Start () {
 		//posiciones iniciales y finales
-		m_minPosition = Vector3.Dot(transform.position, transform.right);
-		m_maxPosition = Vector3.Dot(transform.position, transform.right) + distance;	 
+		m_minPosition = Vector3.Dot(transform.position, transform.right) - leftDistance;
+		m_maxPosition = Vector3.Dot(transform.position, transform.right) + rightDistance;		 
 	}
 	
 

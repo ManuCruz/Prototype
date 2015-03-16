@@ -4,9 +4,9 @@ using System.Collections;
 public class MovePlayer : MonoBehaviour {
 
 	private float m_velocity;
-	private MovilePlatform m_movile;
+	private MobilePlatform m_movile;
 	void Start(){
-		m_movile = transform.parent.gameObject.GetComponent<MovilePlatform>();
+		m_movile = transform.parent.gameObject.GetComponent<MobilePlatform>();
 		m_velocity = m_movile.speed;
 	}
 	void OnTriggerEnter(Collider other){

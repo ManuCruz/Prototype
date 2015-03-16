@@ -1,0 +1,33 @@
+Lista de prefacts:
+	* Obligatory:
+- GameManager: colocar y fin, no necesita configuración.
+- screenFader: colocar y fin, no necesita configuración.
+- Main Camera: colocar (luego se ajusta su posición automáticamente.
+	- Bloque Final Camera Script: configurar la distancia de la cámara (con respecto al centro del cubo), el padding limit (límite anterior a la arista de la cara en el que se producirá la rotación de la cámara) y camera speed (velocidad de movimiento de la cámara)
+- World: Colocar en la posición (0, 0, 0). Escalar al tamaño deseado (mismo valor en las 3 coordenadas).
+- Player: Colocar en la cara que se desee. 
+	- Bloque Transform: Cambiar la rotación en Y para que mire hacia fuera de la cara.
+	- Bloque Player Movement: configurar la velocidad de movimiento y la fuerza de salto.
+	- Bloque Gravity Force: configurar la fuerza de la gravedad.
+	- Bloque Player Inventory: se puede indicar si el jugador lleva la llave final del nivel o no (modificar únicamente durante la ejecución).
+- LightAltar: colocar en la posición deseada.
+	- Se puede rotar su hijo LightAltar para modificar la orientación de entrada.
+	- En su hijo LightAltar, en el bloque "Enter to altar" se puede indicar si se requiere llave para entrar o no.
+	
+	* Items:
+- Key: Colocar en la posición deseada. Solo tendrá utilidad si se indica que la puerta del altar requiere llave (punto anterior).
+	
+	* Platform:
+- Platform: Colocar en la posición deseada. Se puede cambiar su escala para hacerla más larga (otra alternativa es fijar varias plataformas seguidas).
+- IntermittentPlatform: Colocar en la posición deseada.
+	- Bloque Intermittent Platform: Indicar el tiempo que se estará activada y desactivada.
+	- Si se quiere que comience desactivada, desactivar los bloques "Mesh Renderer" y "Box Collider".
+- MobilePlatform: Colocar en la posición deseada. La plataforma siempre empieza moviéndose en dirección a su vector Rigth (flecha roja). Para que se mueva arriba y abajo, hay que rotarla (bloque Transform). 
+	- Bloque Mobile Platform: indicar la distancia que se moverá a la derecha y a la izquierda desde la posición inicial, y la velocidad de movimiento.
+
+	* MortalElements:
+- Enemy: Colocar en la posición deseada. La plataforma siempre empieza moviéndose en dirección a su vector Rigth (flecha roja). Para que se mueva arriba y abajo, hay que rotarla (bloque Transform). Para enemigos aéreos, colocar despegado del suelo
+	- Bloque Enemy Movement: indicar la distancia que se moverá a la derecha y a la izquierda desde la posición inicial, y la velocidad de movimiento.
+- MortalSurface: colocar en la posición deseada.
+
+	

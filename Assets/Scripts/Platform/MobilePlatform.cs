@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MovilePlatform : MonoBehaviour {
+public class MobilePlatform : MonoBehaviour {
 
 	//siempre se mueve en el right
-	public float  distance = 1;
+	public float rightDistance = 1;
+	public float leftDistance = 1;
 	public float speed = 1;
 
 	private float m_maxPosition = 0;
@@ -13,8 +14,8 @@ public class MovilePlatform : MonoBehaviour {
 
 	void Start () {
 		//posiciones iniciales y finales
-		m_minPosition = Vector3.Dot(transform.position, transform.right) - distance;
-		m_maxPosition = Vector3.Dot(transform.position, transform.right) + distance;	 
+		m_minPosition = Vector3.Dot(transform.position, transform.right) - leftDistance;
+		m_maxPosition = Vector3.Dot(transform.position, transform.right) + rightDistance;	 
 	}
 	
 

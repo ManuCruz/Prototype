@@ -16,9 +16,6 @@ public class FinalCameraScript : MonoBehaviour {
 
 	private Vector3 m_finalPosition;
 
-	private int m_count = 1;
-	private bool m_rotation = false;
-
 	void Start () {
 		m_playerTransform = GameObject.FindGameObjectWithTag(Tags.player).transform;
 
@@ -54,20 +51,6 @@ public class FinalCameraScript : MonoBehaviour {
 		else if (pos.z < -m_absLimit)
 			pos.z = -cameraDistance;
 
-		int count = 0;
-		if (m_playerTransform.position.x != pos.x)
-			count++;
-		if (m_playerTransform.position.y != pos.y)
-			count++;
-		if (m_playerTransform.position.z != pos.z)
-			count++;
-
-		if (count != m_count) {
-			m_count = count;
-			m_rotation = true;
-		}
-
-
 		Vector3 absPos = new Vector3 (Mathf.Abs (pos.x), Mathf.Abs (pos.y), Mathf.Abs (pos.z)); 
 		
 		if (absPos.x == cameraDistance && absPos.y == cameraDistance && absPos.z == cameraDistance)
@@ -91,7 +74,7 @@ public class FinalCameraScript : MonoBehaviour {
 //			m_cameraTransform.Rotate (Vector3.forward * -90);
 
 
-		for (int i = 0; i < 400; i++)
+		for (int i = 0; i < 4; i++)
 			if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.05)
 				m_cameraTransform.Rotate (Vector3.forward * -90);
 			else
