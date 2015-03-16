@@ -63,6 +63,8 @@ public class PlayerMovement : MonoBehaviour {
 		//TEST
 		if (Input.GetKeyDown (KeyCode.Space)){
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
+			m_isJumping = true;
+			m_hasLanded = false;
 		}
 		if (Input.GetKey (KeyCode.UpArrow))
 			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
