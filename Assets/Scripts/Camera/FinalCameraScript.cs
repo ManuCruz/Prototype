@@ -25,7 +25,7 @@ public class FinalCameraScript : MonoBehaviour {
 		m_absLimit = Mathf.Max (Mathf.Abs (inverseTransform.x), Mathf.Abs (inverseTransform.y), Mathf.Abs (inverseTransform.z)) - paddingLimit;
 
 		m_sqrt2 = Mathf.Sqrt (2);
-		m_sqrt3 = Mathf.Sqrt (3);
+		m_sqrt3 = Mathf.Sqrt (3);  //tengo dudas de si esto es asi, o hay que utilizar la raiz cubica
 	}
 	
 	void Update () {
@@ -37,48 +37,79 @@ public class FinalCameraScript : MonoBehaviour {
 		Vector3 pos = m_playerTransform.position;
 
 		if (pos.x > m_absLimit)
-			pos.x = cameraDistance;
+			pos.x += cameraDistance;
 		else if (pos.x < -m_absLimit)
-			pos.x = -cameraDistance;
+			pos.x += -cameraDistance;
 		
 		if (pos.y > m_absLimit)
-			pos.y = cameraDistance;
+			pos.y += cameraDistance;
 		else if (pos.y < -m_absLimit)
-			pos.y = -cameraDistance;
+			pos.y += -cameraDistance;
 		
 		if (pos.z > m_absLimit)
-			pos.z = cameraDistance;
+			pos.z += cameraDistance;
 		else if (pos.z < -m_absLimit)
-			pos.z = -cameraDistance;
+			pos.z += -cameraDistance;
 
 		Vector3 absPos = new Vector3 (Mathf.Abs (pos.x), Mathf.Abs (pos.y), Mathf.Abs (pos.z)); 
-		
-		if (absPos.x == cameraDistance && absPos.y == cameraDistance && absPos.z == cameraDistance)
+		float dist = m_absLimit + cameraDistance;
+
+		if (absPos.x >= dist && absPos.y >= dist && absPos.z >= dist)
 			pos = pos/m_sqrt3;
-		else if (absPos.x == cameraDistance && absPos.y == cameraDistance)
+		else if (absPos.x >= dist && absPos.y >= dist)
 			pos = pos/m_sqrt2;
-		else if (absPos.x == cameraDistance && absPos.z == cameraDistance)
+		else if (absPos.x >= dist && absPos.z >= dist)
 			pos = pos/m_sqrt2;
-		else if (absPos.y == cameraDistance && absPos.z == cameraDistance)
+		else if (absPos.y >= dist && absPos.z >= dist)
 			pos = pos/m_sqrt2;
 
 		m_finalPosition = pos;
 
-		m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
+
+		m_cameraTransform.position = m_finalPosition;
+	//	m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
 	}
 
 	void setOrientation(){
-		m_cameraTransform.LookAt (m_playerTransform.position);
+
+		m_cameraTransform.forward = m_playerTransform.position - m_cameraTransform.position;
+
+		Debug.Log ("player ");
+		Debug.Log ("m_playerTransform.up" + m_playerTransform.up);
+		Debug.Log ("m_playerTransform.right" + m_playerTransform.right);
+
+
+		Debug.Log ("Camera");
+		Debug.Log ("m_cameraTransform.up" + m_cameraTransform.up);
+		Debug.Log ("m_cameraTransform.right" + m_cameraTransform.right);
+
+		Debug.Log ("Vector3.Dot " + Vector3.Dot (m_cameraTransform.up, m_playerTransform.up));
+
+		if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.66) {
+			m_cameraTransform.Rotate (Vector3.forward * -90);
+
+		}
+
+
+
+
+
+
+
+
+
+
+	//	m_cameraTransform.LookAt (m_playerTransform.position);
 
 //		while (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.5) {
 //			m_cameraTransform.Rotate (Vector3.forward * -90);
 //		}
 
-		for (int i = 0; i < 4; i++) {
+/*		for (int i = 0; i < 4; i++) {
 			if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.66)
 				m_cameraTransform.Rotate (Vector3.forward * -90);
 			else
 				break;
-		}
+		}*/
 	}
 }

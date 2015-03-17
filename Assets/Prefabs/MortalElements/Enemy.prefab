@@ -88,7 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rightDistance: 1
   leftDistance: 1
-  speed: 1
+  speed: .75
 --- !u!114 &11433148
 MonoBehaviour:
   m_ObjectHideFlags: 1

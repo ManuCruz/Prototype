@@ -150,8 +150,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 136fd85d6b61eb2459da5ebb5eb12408, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeActived: 1
-  timeDesactived: 2
+  timeActived: 1.5
+  timeDesactived: 1.5
+  actived: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
