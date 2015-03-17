@@ -70,14 +70,15 @@ public class FinalCameraScript : MonoBehaviour {
 	void setOrientation(){
 		m_cameraTransform.LookAt (m_playerTransform.position);
 
-//		while (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.05)
+//		while (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.5) {
 //			m_cameraTransform.Rotate (Vector3.forward * -90);
+//		}
 
-
-		for (int i = 0; i < 4; i++)
-			if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.05)
+		for (int i = 0; i < 4; i++) {
+			if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.66)
 				m_cameraTransform.Rotate (Vector3.forward * -90);
 			else
 				break;
+		}
 	}
 }
