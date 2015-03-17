@@ -5,14 +5,15 @@ public class IntermittentPlatform : MonoBehaviour {
 	
 	public float timeActived = 1f;
 	public float timeDesactived = 2f;
-	
+	public bool actived = true;
+
 	private bool m_update = true;
 	private float m_elapsed = 0f;
-	private bool m_actived;
 
 	void Start () {
 		m_elapsed = 0f;
-		m_actived = renderer.enabled;
+		if (!actived)
+			updateComponents ();
 	}
 
 	void Update () {
@@ -23,7 +24,7 @@ public class IntermittentPlatform : MonoBehaviour {
 	}
 
 	void checkStatus(){
-		if (m_actived) {
+		if (actived) {
 			if (m_elapsed >= timeActived) {
 				resetStatus();
 				updateComponents();
@@ -37,14 +38,14 @@ public class IntermittentPlatform : MonoBehaviour {
 	}
 
 	void resetStatus(){
-		m_actived = !m_actived;
+		actived = !actived;
 		m_elapsed = 0;
 	}
 
 	void updateComponents(){
-		renderer.enabled = m_actived;
-		collider.enabled = m_actived;
-		rigidbody.isKinematic = m_actived;
+		renderer.enabled = actived;
+		collider.enabled = actived;
+		rigidbody.isKinematic = actived;
 
 	}
 
@@ -53,7 +54,7 @@ public class IntermittentPlatform : MonoBehaviour {
 	}
 
 	public bool getActived(){
-		return m_actived;
+		return actived;
 	}
 
 }
