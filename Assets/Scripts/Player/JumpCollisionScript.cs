@@ -10,17 +10,17 @@ public class JumpCollisionScript : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		if (other.tag != Tags.enemy)
+		if (other.tag == Tags.floor || other.tag == Tags.altar)
 			m_collisionWithWall = true;
 	}
 
 	void OnTriggerStay(Collider other) {
-		if (other.tag != Tags.enemy)
+		if (other.tag == Tags.floor || other.tag == Tags.altar)
 			m_collisionWithWall = true;
 	}
 
 	void OnTriggerExit(Collider other) {
-		if (other.tag != Tags.enemy)
+		if (other.tag == Tags.floor || other.tag == Tags.altar)
 			m_collisionWithWall = false;
 	}
 
