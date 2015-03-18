@@ -6,4 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/mcruz.unity
+    path: Assets/Scenes/proto_presentacion.unity
