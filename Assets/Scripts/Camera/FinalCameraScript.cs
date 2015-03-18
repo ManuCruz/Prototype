@@ -15,7 +15,7 @@ public class FinalCameraScript : MonoBehaviour {
 	private float m_sqrt2, m_sqrt3;
 
 	private Vector3 m_finalPosition;
-	private float m_elapsed = 5.1f;
+	private float m_elapsed = 4.1f;
 	private bool m_lerp = false;
 
 	void Start () {
@@ -79,7 +79,7 @@ public class FinalCameraScript : MonoBehaviour {
 			m_elapsed = 0;
 			m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
 		}else {
-			if (m_elapsed >= 5){
+			if (m_elapsed >= 4){
 				m_cameraTransform.position = m_finalPosition;
 			}else{
 				m_elapsed += Time.deltaTime;
