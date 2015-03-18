@@ -15,6 +15,8 @@ public class FinalCameraScript : MonoBehaviour {
 	private float m_sqrt2, m_sqrt3;
 
 	private Vector3 m_finalPosition;
+	private float m_elapsed = 5.1f;
+	private bool m_lerp = false;
 
 	void Start () {
 		m_playerTransform = GameObject.FindGameObjectWithTag(Tags.player).transform;
@@ -35,66 +37,57 @@ public class FinalCameraScript : MonoBehaviour {
 
 	void setPosition(){
 		Vector3 pos = m_playerTransform.position;
-
 		if (pos.x > m_absLimit)
-			pos.x += cameraDistance;
+			pos.x = cameraDistance;
 		else if (pos.x < -m_absLimit)
-			pos.x += -cameraDistance;
+			pos.x = -cameraDistance;
 		
 		if (pos.y > m_absLimit)
-			pos.y += cameraDistance;
+			pos.y = cameraDistance;
 		else if (pos.y < -m_absLimit)
-			pos.y += -cameraDistance;
+			pos.y = -cameraDistance;
 		
 		if (pos.z > m_absLimit)
-			pos.z += cameraDistance;
+			pos.z = cameraDistance;
 		else if (pos.z < -m_absLimit)
-			pos.z += -cameraDistance;
-
+			pos.z = -cameraDistance;
+		
 		Vector3 absPos = new Vector3 (Mathf.Abs (pos.x), Mathf.Abs (pos.y), Mathf.Abs (pos.z)); 
-		float dist = m_absLimit + cameraDistance;
-
-		if (absPos.x >= dist && absPos.y >= dist && absPos.z >= dist)
-			pos = pos/m_sqrt3;
-		else if (absPos.x >= dist && absPos.y >= dist)
-			pos = pos/m_sqrt2;
-		else if (absPos.x >= dist && absPos.z >= dist)
-			pos = pos/m_sqrt2;
-		else if (absPos.y >= dist && absPos.z >= dist)
-			pos = pos/m_sqrt2;
-
+		
+		if (absPos.x == cameraDistance && absPos.y == cameraDistance && absPos.z == cameraDistance) {
+			pos = pos / m_sqrt3;
+			m_lerp = true;
+		} else if (absPos.x == cameraDistance && absPos.y == cameraDistance) {
+			pos = pos / m_sqrt2;
+			m_lerp = true;
+		} else if (absPos.x == cameraDistance && absPos.z == cameraDistance) {
+			pos = pos / m_sqrt2;
+			m_lerp = true;
+		} else if (absPos.y == cameraDistance && absPos.z == cameraDistance) {
+			pos = pos / m_sqrt2;
+			m_lerp = true;
+		} else {
+			m_lerp = false;
+		}
+		
 		m_finalPosition = pos;
-
-
-		m_cameraTransform.position = m_finalPosition;
-	//	m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
+		
+		if (m_lerp){
+			m_elapsed = 0;
+			m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
+		}else {
+			if (m_elapsed >= 5){
+				m_cameraTransform.position = m_finalPosition;
+			}else{
+				m_elapsed += Time.deltaTime;
+				m_cameraTransform.position = Vector3.Lerp (m_cameraTransform.position, m_finalPosition, cameraSpeed * Time.deltaTime);
+			}
+		}
 	}
 
 	void setOrientation(){
-
 		m_cameraTransform.forward = m_playerTransform.position - m_cameraTransform.position;
-
-		Debug.Log ("player ");
-		Debug.Log ("m_playerTransform.up" + m_playerTransform.up);
-		Debug.Log ("m_playerTransform.right" + m_playerTransform.right);
-
-
-		Debug.Log ("Camera");
-		Debug.Log ("m_cameraTransform.up" + m_cameraTransform.up);
-		Debug.Log ("m_cameraTransform.right" + m_cameraTransform.right);
-
-		Debug.Log ("Vector3.Dot " + Vector3.Dot (m_cameraTransform.up, m_playerTransform.up));
-
-		if (Vector3.Dot (m_cameraTransform.up, m_playerTransform.up) < 0.66) {
-			m_cameraTransform.Rotate (Vector3.forward * -90);
-
-		}
-
-
-
-
-
-
+		m_cameraTransform.rotation = Quaternion.LookRotation(m_cameraTransform.forward, m_playerTransform.up);
 
 
 
