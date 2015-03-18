@@ -53,18 +53,21 @@ public class FinalCameraScript : MonoBehaviour {
 			pos.z = -cameraDistance;
 		
 		Vector3 absPos = new Vector3 (Mathf.Abs (pos.x), Mathf.Abs (pos.y), Mathf.Abs (pos.z)); 
-		
+
 		if (absPos.x == cameraDistance && absPos.y == cameraDistance && absPos.z == cameraDistance) {
 			pos = pos / m_sqrt3;
 			m_lerp = true;
 		} else if (absPos.x == cameraDistance && absPos.y == cameraDistance) {
-			pos = pos / m_sqrt2;
+			pos.x = pos.x / m_sqrt2;
+			pos.y = pos.y / m_sqrt2;
 			m_lerp = true;
 		} else if (absPos.x == cameraDistance && absPos.z == cameraDistance) {
-			pos = pos / m_sqrt2;
+			pos.x = pos.x / m_sqrt2;
+			pos.z = pos.z / m_sqrt2;
 			m_lerp = true;
 		} else if (absPos.y == cameraDistance && absPos.z == cameraDistance) {
-			pos = pos / m_sqrt2;
+			pos.y = pos.y / m_sqrt2;
+			pos.z = pos.z / m_sqrt2;
 			m_lerp = true;
 		} else {
 			m_lerp = false;
