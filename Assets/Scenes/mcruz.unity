@@ -305,7 +305,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11402010, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
       propertyPath: cameraDistance
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 11402010, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
       propertyPath: paddingLimit
@@ -819,6 +819,18 @@ Prefab:
     - target: {fileID: 482942, guid: 0bf4c8a0a13cc6441919decf4ffa3d74, type: 2}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 482942, guid: 0bf4c8a0a13cc6441919decf4ffa3d74, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 482942, guid: 0bf4c8a0a13cc6441919decf4ffa3d74, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 482942, guid: 0bf4c8a0a13cc6441919decf4ffa3d74, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0bf4c8a0a13cc6441919decf4ffa3d74, type: 2}
@@ -1575,7 +1587,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedMovement: 3
-  jumpForce: 5
+  jumpForce: 7
 --- !u!54 &1205372413
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2719,7 +2731,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5dde086a5a8b6c48a01495760b1bd54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraDistance: 5
+  cameraDistance: 10
   paddingLimit: 1
   cameraSpeed: 3
 --- !u!1 &2117956792
