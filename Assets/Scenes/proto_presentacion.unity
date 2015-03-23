@@ -26303,7 +26303,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11402010, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
       propertyPath: paddingLimit
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
@@ -43589,7 +43589,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraDistance: 18
-  paddingLimit: 2
+  paddingLimit: 1
   cameraSpeed: 3
 --- !u!81 &2031229181
 AudioListener:

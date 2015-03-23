@@ -124,7 +124,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11402010, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
       propertyPath: paddingLimit
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d4fb13d3c7a382f4d8324f07ad482850, type: 2}
@@ -3584,7 +3584,7 @@ Transform:
   m_LocalScale: {x: 5, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 16
+  m_RootOrder: 17
 --- !u!1 &419096978
 GameObject:
   m_ObjectHideFlags: 0
@@ -3644,7 +3644,7 @@ Transform:
   - {fileID: 1283797974}
   - {fileID: 2058105437}
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 16
 --- !u!1 &431186289
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,7 +4132,7 @@ Transform:
   - {fileID: 694292365}
   - {fileID: 951870310}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 18
 --- !u!1001 &479986183
 Prefab:
   m_ObjectHideFlags: 0
@@ -10320,7 +10320,7 @@ Transform:
   m_Children:
   - {fileID: 274103848}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
 --- !u!114 &1246281599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12074,7 +12074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraDistance: 24
-  paddingLimit: 3
+  paddingLimit: 2
   cameraSpeed: 1.25
 --- !u!81 &1411489379
 AudioListener:
@@ -13139,7 +13139,7 @@ Transform:
   m_Children:
   - {fileID: 90705672}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 19
 --- !u!1 &1523387919
 GameObject:
   m_ObjectHideFlags: 0
