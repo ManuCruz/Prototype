@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour {
 
 		//movil
 		for (int i = 0; i < Input.touchCount; ++i) {
-			if (Input.GetTouch(i).phase == TouchPhase.Began || Input.GetTouch(i).phase == TouchPhase.Stationary){
+			if (Input.GetTouch(i).phase != TouchPhase.Ended && Input.GetTouch(i).phase != TouchPhase.Canceled){
 				if (Input.GetTouch(i).position.x < m_semiWidthScreen)
 					m_toL = true;
 				else
