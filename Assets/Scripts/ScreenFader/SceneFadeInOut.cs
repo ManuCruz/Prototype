@@ -10,11 +10,15 @@ public class SceneFadeInOut : MonoBehaviour {
 	private Image m_image;
 	private Text m_text;
 	
+	private ChangeScene m_changeScene;
+	
 	void Start (){
-		m_image = GetComponent<Image>();
+		m_image = GetComponent<Image> ();
 		m_image.color = Color.black;
 		m_text = GetComponentInParent<Text> ();
 		m_text.text = "New Game";
+		
+		m_changeScene = GameObject.FindGameObjectWithTag (Tags.gameManager).GetComponent<ChangeScene> ();
 	}
 	
 	void Update (){
@@ -62,7 +66,7 @@ public class SceneFadeInOut : MonoBehaviour {
 		FadeToBlack();
 		
 		if (m_image.color.a >= 0.95f) {
-			Application.LoadLevel (Application.loadedLevel); 
+			Application.LoadLevel (m_changeScene.GetNextScene ());
 		}
 	}
 }

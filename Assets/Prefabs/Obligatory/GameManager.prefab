@@ -7,8 +7,9 @@ GameObject:
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 477874}
+  - 4: {fileID: 467550}
   - 114: {fileID: 11477874}
+  - 114: {fileID: 11493740}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: GameManager
@@ -16,7 +17,7 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &477874
+--- !u!4 &467550
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -39,6 +40,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb9873a05ccfa8945b3e3455e661d174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11493740
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 177874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6983b8b5bfe2f064e9ad75af7a65e751, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Escenas:
+  - Nivel 04
+  - Nivel 01
+  - Nivel 03
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
