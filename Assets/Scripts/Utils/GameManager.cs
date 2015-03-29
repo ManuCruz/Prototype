@@ -5,6 +5,7 @@ public class GameManager : MonoBehaviour {
 	
 	private bool m_alive;
 	private bool m_victory;
+	private float m_score = 0f;
 	
 	private SceneFadeInOut m_sceneFadeInOut;
 
@@ -37,5 +38,13 @@ public class GameManager : MonoBehaviour {
 			m_playerMovement.enabled = false;
 		}
 		m_victory = true;
+	}
+
+	public void IncreaseScore(){
+		m_score++;
+	}
+
+	public float GetScore(){
+		return m_score;
 	}
 }

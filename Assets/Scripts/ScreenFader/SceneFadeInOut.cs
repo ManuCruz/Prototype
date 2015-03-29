@@ -61,7 +61,8 @@ public class SceneFadeInOut : MonoBehaviour {
 		
 		FadeToBlack();
 		
-		if(m_image.color.a >= 0.95f)
-			Application.LoadLevel(Application.loadedLevel); 
+		if (m_image.color.a >= 0.95f) {
+			Application.LoadLevel (Application.loadedLevel); 
+		}
 	}
 }

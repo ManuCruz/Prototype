@@ -12,6 +12,7 @@ public class GravityForce : MonoBehaviour {
 	}
 
 	void FixedUpdate () {
-		m_RG.AddForce (-transform.up * gravityForce);//, ForceMode.Acceleration);
+//		m_RG.AddForce (-transform.up * gravityForce, ForceMode.Acceleration);
+		m_RG.AddForce (-transform.up * gravityForce);
 	}
 }

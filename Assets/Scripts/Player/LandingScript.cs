@@ -10,7 +10,7 @@ public class LandingScript : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == Tags.floor || other.tag == Tags.altar)
+		if (other.tag == Tags.floor)
 			m_playerMovement.ResetJump ();
 	}
 }

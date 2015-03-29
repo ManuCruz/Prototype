@@ -13,8 +13,4 @@ public class Tags {
 	public const string gameManager = "GameManager";
 	public const string key = "Key";
 	public const string altar = "Altar";
-
-
-	
-
 }
