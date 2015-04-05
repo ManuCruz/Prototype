@@ -10,6 +10,7 @@ public class PlayerMovement : MonoBehaviour {
 	
 	private bool m_isJumping = false;
 	private bool m_hasLanded = true;
+	private bool m_doJump = false;
 	
 	enum state{stop, right, left};
 	private state m_status = state.stop;
@@ -21,7 +22,17 @@ public class PlayerMovement : MonoBehaviour {
 	private float m_absLimit;
 	
 	private JumpCollisionScript m_jumpCollisionScript;
-	
+
+	public enum InputControls{
+		normal,
+		pc,
+		swipe,
+	};
+
+	public InputControls inputControls = InputControls.normal;
+
+	private float m_deltaToSwipe = 10;
+
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
 		
@@ -39,47 +50,69 @@ public class PlayerMovement : MonoBehaviour {
 		DoTransition ();
 		AjustPosition();
 	}
-	
+
 	void GetInput(){
 		m_toR = false;
 		m_toL = false;
-		
-		//movil
-		for (int i = 0; i < Input.touchCount; ++i) {
-			if (Input.GetTouch(i).phase != TouchPhase.Ended && Input.GetTouch(i).phase != TouchPhase.Canceled){
-				if (Input.GetTouch(i).position.x < m_semiWidthScreen)
-					m_toL = true;
-				else
-					m_toR = true;
+		m_doJump = false;
+
+		switch (inputControls) {
+		case InputControls.normal:
+			for (int i = 0; i < Input.touchCount; ++i) {
+				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
+					if (Input.GetTouch (i).position.x < m_semiWidthScreen)
+						m_toL = true;
+					else
+						m_toR = true;
+				}
 			}
+			//JUMP
+			if (m_toR && m_toL)
+				m_doJump = true;
+			break;
+
+		case InputControls.pc:
+			if (Input.GetKey (KeyCode.RightArrow))
+				m_toR = true;
+			if (Input.GetKey (KeyCode.LeftArrow))
+				m_toL = true;
+			if (Input.GetKeyDown (KeyCode.Space))
+				m_doJump = true;
+			//TEST
+			if (Input.GetKey (KeyCode.UpArrow))
+				transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
+			if (Input.GetKey (KeyCode.DownArrow))
+				transform.Translate (transform.up * -speedMovement * Time.deltaTime, Space.World);
+			break;
+
+		case InputControls.swipe:
+			for (int i = 0; i < Input.touchCount; ++i) {
+				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
+					if (Input.GetTouch (i).position.x < m_semiWidthScreen)
+						m_toL = true;
+					else
+						m_toR = true;
+
+					if (Input.GetTouch (i).phase == TouchPhase.Moved && Input.GetTouch (i).deltaPosition.y > m_deltaToSwipe) {
+						m_doJump = true;
+					}
+
+					break;
+				}
+			}
+			break;
 		}
-		
-		//PC
-		if (Input.GetKey (KeyCode.RightArrow))
-			m_toR = true;
-		if (Input.GetKey (KeyCode.LeftArrow))
-			m_toL = true;
-		
-		//TEST
-		if (Input.GetKeyDown (KeyCode.Space)){
-			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
-			m_isJumping = true;
-			m_hasLanded = false;
-		}
-		if (Input.GetKey (KeyCode.UpArrow))
-			transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
-		if (Input.GetKey (KeyCode.DownArrow))
-			transform.Translate (transform.up * -speedMovement * Time.deltaTime, Space.World);
+
 	}
 	
 	void DoMovement(){
-		if (!m_isJumping && m_toR && m_toL) {  //Jump
+		if (!m_isJumping && m_doJump) {  //Jump
 			m_RG.AddForce(transform.up * jumpForce, ForceMode.VelocityChange);
 			m_isJumping = true;
 			m_hasLanded = false;
 		} 
 		
-		if(m_hasLanded && ((m_toR && !m_toL) || (!m_toR && m_toL)))
+		if(m_hasLanded && !m_doJump)
 			m_isJumping = false;
 		
 		if (m_toR && !m_toL) {  //Right

@@ -37,8 +37,7 @@ public class SceneFadeInOut : MonoBehaviour {
 	void FadeToBlack (){
 		m_image.color = Color.Lerp(m_image.color, Color.black, fadeSpeed * Time.deltaTime);
 	}
-	
-	
+
 	void StartScene (){
 
 		FadeToClear();
