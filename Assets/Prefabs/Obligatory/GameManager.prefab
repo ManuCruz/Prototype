@@ -53,8 +53,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Escenas:
   - Nivel 04
-  - Nivel 01
+  - Nivel 02
   - Nivel 03
+  - Nivel 01
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
