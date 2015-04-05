@@ -32,6 +32,7 @@ public class PlayerMovement : MonoBehaviour {
 	public InputControls inputControls = InputControls.normal;
 
 	private float m_deltaToSwipe = 10;
+	private int m_currentTouchIndex = 0;
 
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
@@ -86,7 +87,9 @@ public class PlayerMovement : MonoBehaviour {
 			break;
 
 		case InputControls.swipe:
-			for (int i = 0; i < Input.touchCount; ++i) {
+			int newTouchIndex = 0;
+			bool end = false;
+			for (int i = m_currentTouchIndex; i < Input.touchCount; ++i) { //from Current touch index to end
 				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
 					if (Input.GetTouch (i).position.x < m_semiWidthScreen)
 						m_toL = true;
@@ -97,9 +100,33 @@ public class PlayerMovement : MonoBehaviour {
 						m_doJump = true;
 					}
 
+					newTouchIndex = Input.GetTouch (i).fingerId;
+					end = true;
+			
 					break;
 				}
 			}
+
+			if(!end){
+				for (int i = 0; i < m_currentTouchIndex; ++i) { //from 0 to current touch index
+					if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
+						if (Input.GetTouch (i).position.x < m_semiWidthScreen)
+							m_toL = true;
+						else
+							m_toR = true;
+						
+						if (Input.GetTouch (i).phase == TouchPhase.Moved && Input.GetTouch (i).deltaPosition.y > m_deltaToSwipe) {
+							m_doJump = true;
+						}
+
+						newTouchIndex = Input.GetTouch (i).fingerId;;
+
+						break;
+					}
+				}
+			}
+
+			m_currentTouchIndex = newTouchIndex;
 			break;
 		}
 
