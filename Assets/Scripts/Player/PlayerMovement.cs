@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour {
 	private float m_semiWidthScreen;
 	private bool m_toR = false;
 	private bool m_toL = false;
-	
+
 	private float m_absLimit;
 	
 	private JumpCollisionScript m_jumpCollisionScript;
@@ -133,11 +133,11 @@ public class PlayerMovement : MonoBehaviour {
 			for (int i = 0; i < Input.touchCount; ++i) {
 				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
 					if (Input.GetTouch (i).position.x < m_semiWidthScreen){
-						m_toL = (!m_toR) ? true : false;
+						m_toL = true;
 						if (Input.GetTouch (i).tapCount > 1)
 							m_doJump = true;
 					}else{
-						m_toR = (!m_toL) ? true : false;
+						m_toR = true;
 						if (Input.GetTouch (i).tapCount > 1)
 							m_doJump = true;
 					}
