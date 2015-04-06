@@ -1551,7 +1551,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 15
 --- !u!1 &188811785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2320,7 +2320,7 @@ Transform:
   m_LocalScale: {x: 2, y: 1, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 22
+  m_RootOrder: 23
 --- !u!1001 &244831787
 Prefab:
   m_ObjectHideFlags: 0
@@ -4368,7 +4368,7 @@ Transform:
   - {fileID: 1283797974}
   - {fileID: 2058105437}
   m_Father: {fileID: 0}
-  m_RootOrder: 21
+  m_RootOrder: 17
 --- !u!1 &431186289
 GameObject:
   m_ObjectHideFlags: 0
@@ -5188,7 +5188,7 @@ Transform:
   - {fileID: 694292365}
   - {fileID: 951870310}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 19
 --- !u!1 &477198760
 GameObject:
   m_ObjectHideFlags: 0
@@ -9258,7 +9258,7 @@ Transform:
   - {fileID: 1772326996}
   - {fileID: 1827981245}
   m_Father: {fileID: 0}
-  m_RootOrder: 15
+  m_RootOrder: 14
 --- !u!1001 &801181422
 Prefab:
   m_ObjectHideFlags: 0
@@ -9704,7 +9704,7 @@ Transform:
   m_Children:
   - {fileID: 1694473027}
   m_Father: {fileID: 0}
-  m_RootOrder: 20
+  m_RootOrder: 22
 --- !u!1001 &897943345
 Prefab:
   m_ObjectHideFlags: 0
@@ -11283,7 +11283,7 @@ Transform:
   m_Children:
   - {fileID: 46414870}
   m_Father: {fileID: 0}
-  m_RootOrder: 23
+  m_RootOrder: 24
 --- !u!1001 &1032230892
 Prefab:
   m_ObjectHideFlags: 0
@@ -13438,7 +13438,7 @@ Transform:
   m_Children:
   - {fileID: 274103848}
   m_Father: {fileID: 0}
-  m_RootOrder: 18
+  m_RootOrder: 20
 --- !u!114 &1246281599
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13895,7 +13895,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMovement: 3.5
   jumpForce: 7
-  inputControls: 2
+  inputControls: 3
 --- !u!108 &1276366790
 Light:
   m_ObjectHideFlags: 0
@@ -15421,7 +15421,7 @@ Transform:
   m_LocalScale: {x: .5, y: 1, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 19
+  m_RootOrder: 21
 --- !u!1 &1387529418
 GameObject:
   m_ObjectHideFlags: 0
@@ -16997,7 +16997,7 @@ Transform:
   m_Children:
   - {fileID: 90705672}
   m_Father: {fileID: 0}
-  m_RootOrder: 17
+  m_RootOrder: 18
 --- !u!1 &1523387919
 GameObject:
   m_ObjectHideFlags: 0
@@ -19819,7 +19819,7 @@ Transform:
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 24
+  m_RootOrder: 25
 --- !u!1 &1767831979
 GameObject:
   m_ObjectHideFlags: 0
@@ -21575,7 +21575,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11476946, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
       propertyPath: inputControls
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}

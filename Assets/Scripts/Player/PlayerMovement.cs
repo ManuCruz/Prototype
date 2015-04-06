@@ -5,7 +5,16 @@ public class PlayerMovement : MonoBehaviour {
 	
 	public float speedMovement = 3f;
 	public float jumpForce = 5f;
+
+	public enum InputControls{
+		normal,
+		pc,
+		swipe,
+		doubleTap,
+	};
 	
+	public InputControls inputControls = InputControls.normal;
+
 	private Rigidbody m_RG;
 	
 	private bool m_isJumping = false;
@@ -22,14 +31,6 @@ public class PlayerMovement : MonoBehaviour {
 	private float m_absLimit;
 	
 	private JumpCollisionScript m_jumpCollisionScript;
-
-	public enum InputControls{
-		normal,
-		pc,
-		swipe,
-	};
-
-	public InputControls inputControls = InputControls.normal;
 
 	private float m_deltaToSwipe = 10;
 	private int m_currentTouchIndex = 0;
@@ -127,6 +128,21 @@ public class PlayerMovement : MonoBehaviour {
 			}
 
 			m_currentTouchIndex = newTouchIndex;
+			break;
+		case InputControls.doubleTap:
+			for (int i = 0; i < Input.touchCount; ++i) {
+				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
+					if (Input.GetTouch (i).position.x < m_semiWidthScreen){
+						m_toL = (!m_toR) ? true : false;
+						if (Input.GetTouch (i).tapCount > 1)
+							m_doJump = true;
+					}else{
+						m_toR = (!m_toL) ? true : false;
+						if (Input.GetTouch (i).tapCount > 1)
+							m_doJump = true;
+					}
+				}
+			}
 			break;
 		}
 
