@@ -8146,7 +8146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMovement: 3.5
   jumpForce: 7.80000019
-  inputControls: 3
+  inputControls: 0
 --- !u!108 &1276366790
 Light:
   m_ObjectHideFlags: 0
@@ -13100,7 +13100,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 11476946, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
       propertyPath: inputControls
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 84b38baa8b363c7459bbdaee249a2707, type: 2}
