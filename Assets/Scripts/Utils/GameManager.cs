@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 		m_score = 0f;
 
 		m_sounds = GetComponents<AudioSource>();
+		m_sounds[0].Play();
 	}
 
 	void Update(){

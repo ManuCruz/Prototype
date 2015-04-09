@@ -99,7 +99,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 7f62db3955c609f45995ebec68e69104, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: .75
   m_Pitch: 1
   Loop: 1
@@ -229,10 +229,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Escenas:
-  - Nivel 04
+  - Nivel 01
   - Nivel 02
   - Nivel 03
-  - Nivel 01
+  - Nivel 04
+  - Nivel 05
+  - Nivel 06
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

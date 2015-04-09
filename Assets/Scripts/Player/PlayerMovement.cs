@@ -25,8 +25,8 @@ public class PlayerMovement : MonoBehaviour {
 	private state m_status = state.stop;
 	
 	private float m_semiWidthScreen;
-	private bool m_toR = false;
-	private bool m_toL = false;
+	private int m_toR = 0;
+	private int m_toL = 0;
 
 	private float m_absLimit;
 	
@@ -34,6 +34,8 @@ public class PlayerMovement : MonoBehaviour {
 
 	private float m_deltaToSwipe = 10;
 	private int m_currentTouchIndex = 0;
+
+	private int m_frameToMove = 5;
 
 	void Start () {
 		m_RG = GetComponent<Rigidbody>();
@@ -54,32 +56,51 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
 	void GetInput(){
-		m_toR = false;
-		m_toL = false;
 		m_doJump = false;
+		bool pressR = false;
+		bool pressL = false;
 
 		switch (inputControls) {
 		case InputControls.normal:
 			for (int i = 0; i < Input.touchCount; ++i) {
 				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
-					if (Input.GetTouch (i).position.x < m_semiWidthScreen)
-						m_toL = true;
-					else
-						m_toR = true;
+					if (Input.GetTouch (i).position.x < m_semiWidthScreen){
+						m_toL++;
+						pressL = true;
+					}
+					else{
+						m_toR++;
+						pressR = true;
+					}
 				}
 			}
 			//JUMP
-			if (m_toR && m_toL)
+			if (pressR && pressL)
 				m_doJump = true;
+			
+			if (!pressR)
+				m_toR=0;
+			if (!pressL)
+				m_toL=0;
 			break;
 
 		case InputControls.pc:
-			if (Input.GetKey (KeyCode.RightArrow))
-				m_toR = true;
-			if (Input.GetKey (KeyCode.LeftArrow))
-				m_toL = true;
-			if (Input.GetKeyDown (KeyCode.Space))
+			if (Input.GetKey (KeyCode.RightArrow)){
+				m_toR++;
+				pressR = true;
+			}
+			if (Input.GetKey (KeyCode.LeftArrow)){
+				m_toL++;
+				pressL = true;
+			}
+			if ((pressR && pressL) || Input.GetKey (KeyCode.Space))
 				m_doJump = true;
+
+			if (!pressR)
+				m_toR=0;
+			if (!pressL)
+				m_toL=0;
+
 			//TEST
 			if (Input.GetKey (KeyCode.UpArrow))
 				transform.Translate (transform.up * speedMovement * Time.deltaTime, Space.World);
@@ -92,10 +113,14 @@ public class PlayerMovement : MonoBehaviour {
 			bool end = false;
 			for (int i = m_currentTouchIndex; i < Input.touchCount; ++i) { //from Current touch index to end
 				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
-					if (Input.GetTouch (i).position.x < m_semiWidthScreen)
-						m_toL = true;
-					else
-						m_toR = true;
+					if (Input.GetTouch (i).position.x < m_semiWidthScreen){
+						m_toL++;
+						pressL = true;
+					}
+					else{
+						m_toR++;
+						pressR = true;
+					}
 
 					if (Input.GetTouch (i).phase == TouchPhase.Moved && Input.GetTouch (i).deltaPosition.y > m_deltaToSwipe) {
 						m_doJump = true;
@@ -111,10 +136,14 @@ public class PlayerMovement : MonoBehaviour {
 			if(!end){
 				for (int i = 0; i < m_currentTouchIndex; ++i) { //from 0 to current touch index
 					if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
-						if (Input.GetTouch (i).position.x < m_semiWidthScreen)
-							m_toL = true;
-						else
-							m_toR = true;
+						if (Input.GetTouch (i).position.x < m_semiWidthScreen){
+							m_toL++;
+							pressL = true;
+						}
+						else{
+							m_toR++;
+							pressR = true;
+						}
 						
 						if (Input.GetTouch (i).phase == TouchPhase.Moved && Input.GetTouch (i).deltaPosition.y > m_deltaToSwipe) {
 							m_doJump = true;
@@ -127,22 +156,31 @@ public class PlayerMovement : MonoBehaviour {
 				}
 			}
 
+			if (!pressR)
+				m_toR=0;
+			if (!pressL)
+				m_toL=0;
 			m_currentTouchIndex = newTouchIndex;
 			break;
 		case InputControls.doubleTap:
 			for (int i = 0; i < Input.touchCount; ++i) {
 				if (Input.GetTouch (i).phase != TouchPhase.Ended && Input.GetTouch (i).phase != TouchPhase.Canceled) {
 					if (Input.GetTouch (i).position.x < m_semiWidthScreen){
-						m_toL = true;
-						if (Input.GetTouch (i).tapCount > 1)
-							m_doJump = true;
-					}else{
-						m_toR = true;
-						if (Input.GetTouch (i).tapCount > 1)
-							m_doJump = true;
+						m_toL++;
+						pressL = true;
 					}
+					else{
+						m_toR++;
+						pressR = true;
+					}
+					if (Input.GetTouch (i).tapCount > 1)
+						m_doJump = true;
 				}
 			}
+			if (!pressR)
+				m_toR=0;
+			if (!pressL)
+				m_toL=0;
 			break;
 		}
 
@@ -158,19 +196,19 @@ public class PlayerMovement : MonoBehaviour {
 		if(m_hasLanded && !m_doJump)
 			m_isJumping = false;
 		
-		if (m_toR && !m_toL) {  //Right
+		if (m_toR>m_frameToMove && m_toL<=m_frameToMove) {  //Right
 			if (m_status == state.stop)
 				transform.Rotate (transform.up, -90, Space.World);
 			if (m_status == state.left)
 				transform.Rotate (transform.up, 180, Space.World);
 			m_status = state.right;
-		} else if (m_toL && !m_toR) {  //Left
+		} else if (m_toL>m_frameToMove && m_toR<=m_frameToMove) {  //Left
 			if (m_status == state.stop)
 				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.right)
 				transform.Rotate (transform.up, 180, Space.World);
 			m_status = state.left;
-		} else if (!m_toL && !m_toR){  //Stop
+		} else if (m_toL<=m_frameToMove && m_toR<=m_frameToMove){  //Stop
 			if (m_status == state.right)
 				transform.Rotate (transform.up, 90, Space.World);
 			if (m_status == state.left)
@@ -181,10 +219,10 @@ public class PlayerMovement : MonoBehaviour {
 		bool colWithWall = m_jumpCollisionScript.IsCollidingWithWall ();
 		
 		if (!colWithWall) {
-			if (m_toR && m_status == state.right)
+			if (m_toR>m_frameToMove && m_status == state.right)
 				transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
 			
-			if (m_toL && m_status == state.left)
+			if (m_toL>m_frameToMove && m_status == state.left)
 				transform.Translate (transform.forward * speedMovement * Time.deltaTime, Space.World);
 		}
 	}
@@ -192,11 +230,11 @@ public class PlayerMovement : MonoBehaviour {
 	void DoTransition(){
 		float dotForward = Vector3.Dot (transform.position, transform.forward);
 		
-		if (dotForward > m_absLimit && m_toR) { //right side
+		if (dotForward > m_absLimit && m_toR>m_frameToMove) { //right side
 			transform.Rotate (transform.up, -90, Space.World);
 			AjustPosition();
 		}
-		if (dotForward > m_absLimit && m_toL) { //left side
+		if (dotForward > m_absLimit && m_toL>m_frameToMove) { //left side
 			transform.Rotate (transform.up, 90, Space.World);
 			AjustPosition();
 		}
@@ -256,11 +294,11 @@ public class PlayerMovement : MonoBehaviour {
 	}
 	
 	public bool isPlayerToRight(){
-		return m_toR;
+		return m_toR>m_frameToMove;
 	}
 	
 	public bool isPlayerToLeft(){
-		return m_toL;
+		return m_toL>m_frameToMove;
 	}
 	public bool isPlayerToUp(){
 		float dotProduct = Vector3.Dot(transform.InverseTransformDirection(m_RG.velocity), new Vector3(1,1,1));
