@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class SceneFadeInOut : MonoBehaviour {
 	
-	public float fadeSpeed = 2f;          
+	public float fadeInSpeed = 2f;  
+	public float fadeOutSpeed = 0.5f; 
 	private bool m_sceneStarting = true;  
 	private bool m_sceneEnding = false;  
 	private Image m_image;
@@ -30,12 +31,12 @@ public class SceneFadeInOut : MonoBehaviour {
 	
 	
 	void FadeToClear (){
-		m_image.color = Color.Lerp(m_image.color, Color.clear, fadeSpeed * Time.deltaTime);
+		m_image.color = Color.Lerp(m_image.color, Color.clear, fadeInSpeed * Time.deltaTime);
 	}
 	
 	
 	void FadeToBlack (){
-		m_image.color = Color.Lerp(m_image.color, Color.black, fadeSpeed * Time.deltaTime);
+		m_image.color = Color.Lerp(m_image.color, Color.black, fadeOutSpeed * Time.deltaTime);
 	}
 
 	void StartScene (){

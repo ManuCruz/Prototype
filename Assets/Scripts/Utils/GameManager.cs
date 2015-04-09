@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour {
 	private PlayerMovement m_playerMovement;
 
 	private ChangeScene m_changeScene;
+
+	private AudioSource[] m_sounds;
 	
 	void Start (){
 		m_changeScene = GetComponent<ChangeScene>();
@@ -23,6 +25,8 @@ public class GameManager : MonoBehaviour {
 		m_playerMovement = GameObject.FindGameObjectWithTag(Tags.player).GetComponent<PlayerMovement>();
 
 		m_score = 0f;
+
+		m_sounds = GetComponents<AudioSource>();
 	}
 
 	void Update(){
@@ -35,6 +39,8 @@ public class GameManager : MonoBehaviour {
 		if (m_alive) {
 			m_sceneFadeInOut.End ("Game Over");
 			m_playerMovement.enabled = false;
+			m_sounds[0].Stop();
+			m_sounds[2].Play();
 		}
 		m_alive = false;
 	}
@@ -44,6 +50,8 @@ public class GameManager : MonoBehaviour {
 			m_changeScene.NextScene();
 			m_sceneFadeInOut.End ("Victory");
 			m_playerMovement.enabled = false;
+			m_sounds[0].Stop();
+			m_sounds[1].Play();
 		}
 		m_victory = true;
 	}

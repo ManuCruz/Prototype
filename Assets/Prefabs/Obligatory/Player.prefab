@@ -252,6 +252,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMovement: 3
   jumpForce: 7
+  inputControls: 0
 --- !u!114 &11499748
 MonoBehaviour:
   m_ObjectHideFlags: 1
